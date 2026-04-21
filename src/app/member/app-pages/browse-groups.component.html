@@ -1,0 +1,147 @@
+<div class="min-h-screen p-6 bg-gradient-to-br from-indigo-50 via-white to-blue-50">
+      <div class="max-w-5xl mx-auto">
+        <a routerLink=".." class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+          Back
+        </a>
+        <div class="mb-4">
+          <div class="flex items-center justify-between text-sm text-gray-600 mb-2">
+            <span>Step 4 of 5</span>
+            <span>80%</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div class="bg-indigo-600 h-2 rounded-full w-4/5 transition-all duration-300"></div>
+          </div>
+        </div>
+        <h1 class="text-4xl font-bold text-gray-900 mb-2">Choose Your Solidarity Group</h1>
+        <p class="text-lg text-gray-600 mb-6">Join a group that matches your profile. Your contributions will support each other's health needs.</p>
+
+        <div *ngIf="hasMemberContext" class="bg-white rounded-2xl border border-gray-200 p-4 mb-6">
+          <p class="text-sm text-gray-700 font-medium mb-3">Package for this group</p>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" (click)="selectedPackage='BASIC'" class="px-3 py-2 rounded-xl border-2 text-sm font-semibold transition-colors" [ngClass]="selectedPackage==='BASIC' ? 'border-indigo-600 bg-indigo-50 text-indigo-700' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'">BASIC</button>
+            <button type="button" (click)="selectedPackage='CONFORT'" class="px-3 py-2 rounded-xl border-2 text-sm font-semibold transition-colors" [ngClass]="selectedPackage==='CONFORT' ? 'border-indigo-600 bg-indigo-50 text-indigo-700' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'">COMFORT</button>
+            <button type="button" (click)="selectedPackage='PREMIUM'" class="px-3 py-2 rounded-xl border-2 text-sm font-semibold transition-colors" [ngClass]="selectedPackage==='PREMIUM' ? 'border-indigo-600 bg-indigo-50 text-indigo-700' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'">PREMIUM</button>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 mb-6">
+          <div class="flex-1 inline-flex items-center gap-2 px-4 py-3 bg-purple-100 rounded-full">
+            <svg class="w-4 h-4 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3 1.9 3.9 4.3.6-3.1 3 0.7 4.3L12 13l-3.8 1.8 0.7-4.3-3.1-3 4.3-.6z"/></svg>
+            <span class="text-sm font-medium text-purple-900">AI-Suggested Groups</span>
+          </div>
+          <button type="button" (click)="openQrScanner()" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-full font-medium hover:bg-indigo-700 transition-colors shadow-lg">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/><path d="M16 16h2v2h-2z"/></svg>
+            Scan Private Group QR
+          </button>
+        </div>
+
+        <div *ngIf="error" class="mb-6 bg-red-50 border border-red-200 text-red-800 rounded-xl p-4 text-sm">
+          {{ error }}
+        </div>
+        <div *ngIf="joinSuccess" class="mb-6 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl p-4 text-sm">
+          {{ joinSuccess }}
+        </div>
+
+        <div *ngIf="loading" class="bg-white rounded-2xl border border-gray-200 p-6 text-sm text-gray-600 mb-6">
+          Loading groups...
+        </div>
+
+        <div *ngIf="!loading && displayGroups.length === 0" class="bg-white rounded-2xl border border-gray-200 p-6 text-sm text-gray-600 mb-6">
+          No groups to show yet.
+          <button *ngIf="hasMemberContext" type="button" (click)="refreshSuggestions()" class="ml-2 text-indigo-600 font-semibold hover:underline">Refresh</button>
+        </div>
+
+        <div class="space-y-4 mb-8">
+          <button
+            *ngFor="let g of displayGroups"
+            type="button"
+            (click)="chooseGroup(g)"
+            class="w-full bg-white rounded-2xl border-2 p-6 text-left transition-all hover:shadow-lg"
+            [ngClass]="selectedGroupId === g.groupId ? 'border-indigo-600 shadow-lg ring-2 ring-indigo-200' : 'border-gray-200 hover:border-indigo-300'"
+          >
+            <div class="flex items-start justify-between mb-4">
+              <div class="flex items-start gap-4 flex-1">
+                <div class="w-16 h-16 rounded-xl flex items-center justify-center" [ngClass]="selectedGroupId === g.groupId ? 'bg-indigo-600' : 'bg-indigo-100'">
+                  <svg class="w-8 h-8" [ngClass]="selectedGroupId === g.groupId ? 'text-white' : 'text-indigo-600'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center gap-3 mb-2">
+                    <h3 class="text-3xl font-bold text-gray-900">{{ g.name }}</h3>
+                    <span *ngIf="displayMatchScore(g) >= 90" class="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-semibold rounded-full">Best Match</span>
+                  </div>
+                  <div class="flex flex-wrap items-center gap-4 text-sm text-gray-600 mb-3">
+                    <span class="inline-flex items-center gap-1">{{ (g.currentMemberCount ?? 0) }} members</span>
+                    <span class="inline-flex items-center gap-1">{{ g.region || '—' }}</span>
+                    <span class="inline-flex items-center gap-1">{{ displayPoolBalance(g) | number }} DT Pool</span>
+                  </div>
+                  <span class="inline-block px-3 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">{{ g.type || 'Group' }}</span>
+                </div>
+              </div>
+              <div class="text-right ml-4">
+                <div class="w-16 h-16 rounded-full border-4 border-indigo-600 flex items-center justify-center bg-indigo-50">
+                  <div class="text-center">
+                    <p class="text-xl font-bold text-indigo-600">{{ displayMatchScore(g) }}</p>
+                    <p class="text-xs text-indigo-600">Match</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 mb-4">
+              <div class="bg-gray-50 rounded-lg p-3 text-center">
+                <p class="text-sm text-gray-600 mb-1">Trust Score</p>
+                <p class="text-lg font-bold text-gray-900">{{ displayTrustScore(g) }}%</p>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-3 text-center">
+                <p class="text-sm text-gray-600 mb-1">Avg. Premium</p>
+                <p class="text-lg font-bold text-gray-900">{{ displayMonthlyPremium(g) }} DT</p>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-3 text-center">
+                <p class="text-sm text-gray-600 mb-1">Approval Rate</p>
+                <p class="text-lg font-bold text-gray-900">{{ displayApprovalRate(g) }}%</p>
+              </div>
+            </div>
+
+            <div class="bg-blue-50 rounded-lg p-3 mb-3">
+              <p class="text-sm text-gray-700"><strong class="text-blue-900">Criteria:</strong> {{ displayCriteria(g) }}</p>
+            </div>
+          </button>
+        </div>
+
+        <div class="space-y-3">
+          <button type="button" (click)="continueWithSelectedGroup()" [disabled]="!selectedGroupId || joining" class="w-full py-4 rounded-xl font-semibold text-lg transition-all" [ngClass]="selectedGroupId && !joining ? 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg' : 'bg-gray-300 text-gray-500 cursor-not-allowed'">
+            {{ selectedGroupId ? (joining ? 'Joining...' : 'Continue to Payment') : 'Select a Group to Continue' }}
+          </button>
+          <a routerLink="/first-payment" class="block w-full text-center py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-medium hover:bg-gray-50 transition-colors">
+            Skip for Now (Join Group Later)
+          </a>
+        </div>
+      </div>
+
+    <div *ngIf="showQRScanner" class="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-lg w-full p-6">
+        <div *ngIf="scanningQR" class="text-center">
+          <div class="w-72 h-72 bg-gray-900 rounded-xl mx-auto mb-6 flex items-center justify-center relative overflow-hidden">
+            <svg class="w-24 h-24 text-indigo-400 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/><path d="M16 16h2v2h-2z"/></svg>
+            <div class="absolute top-0 left-0 right-0 h-1 bg-indigo-500 animate-[scan_2s_ease-in-out_infinite]"></div>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Scanning QR</h3>
+          <p class="text-gray-600 mb-6">Position the QR code in the frame</p>
+          <button type="button" (click)="closeQrScanner()" class="px-6 py-2 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">Cancel</button>
+        </div>
+
+        <div *ngIf="!scanningQR && scannedInviteCode">
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Private Group Invite Found</h3>
+          <p class="text-sm text-gray-600 mb-4">Scanned code:</p>
+          <div class="rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-3 text-indigo-800 font-semibold mb-6">
+            {{ scannedInviteCode }}
+          </div>
+          <div class="space-y-3">
+            <button type="button" (click)="joinScannedPrivateGroup()" class="w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold hover:bg-indigo-700 transition-colors">Join This Private Group</button>
+            <button type="button" (click)="closeQrScanner()" class="w-full border-2 border-gray-300 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-colors">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

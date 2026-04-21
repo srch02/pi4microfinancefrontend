@@ -1,0 +1,30 @@
+<div class="p-6 max-w-2xl mx-auto">
+      <h1 class="text-2xl font-bold mb-2">Member Profile</h1>
+      <p class="text-gray-600 mb-6">Manage your account and membership details.</p>
+      <div *ngIf="loading" class="bg-white rounded-2xl border border-gray-200 p-6 mb-6 text-sm text-gray-600">
+        Loading your profile...
+      </div>
+      <div *ngIf="error" class="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 text-sm text-red-700">
+        {{ error }}
+      </div>
+      <div class="bg-white rounded-2xl border border-gray-200 p-6 mb-6">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="w-14 h-14 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-xl">
+            {{ profile.fullName.charAt(0) }}
+          </div>
+          <div>
+            <h2 class="font-semibold text-gray-900">{{ profile.fullName }}</h2>
+            <p class="text-sm text-gray-500">Member ID: {{ profile.memberId }}</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="bg-gray-50 rounded-xl p-4"><p class="text-xs text-gray-500 mb-1">Email</p><p class="text-sm font-medium text-gray-900">{{ profile.email }}</p></div>
+          <div class="bg-gray-50 rounded-xl p-4"><p class="text-xs text-gray-500 mb-1">Phone</p><p class="text-sm font-medium text-gray-900">{{ profile.phone }}</p></div>
+          <div class="bg-gray-50 rounded-xl p-4"><p class="text-xs text-gray-500 mb-1">City</p><p class="text-sm font-medium text-gray-900">{{ profile.city }}</p></div>
+          <div class="bg-gray-50 rounded-xl p-4"><p class="text-xs text-gray-500 mb-1">Plan</p><p class="text-sm font-medium text-gray-900">{{ profile.plan }}</p></div>
+        </div>
+      </div>
+      <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4">
+        <p class="text-sm text-indigo-900">Member since {{ profile.joinedAt }}. Keep your profile up to date for faster claim processing.</p>
+      </div>
+    </div>

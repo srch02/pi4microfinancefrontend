@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+@import '../../template_src/src/styles/globals.css';
+
+@layer base {
+  html, body, app-root {
+    min-height: 100vh;
+    height: 100%;
+    margin: 0;
+  }
+}

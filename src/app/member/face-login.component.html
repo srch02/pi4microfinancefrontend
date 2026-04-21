@@ -1,0 +1,53 @@
+<div class="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-br from-indigo-50 via-white to-blue-50">
+      <div class="w-full max-w-lg bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h1 class="text-2xl font-bold text-gray-900">Facial Recognition</h1>
+          <button type="button" routerLink="/sign-in" class="text-sm text-gray-600 hover:text-gray-900">Close</button>
+        </div>
+        <p class="text-sm text-gray-600 mb-4">Position your face in the frame and start secure biometric verification.</p>
+
+        <div class="relative w-full aspect-video rounded-2xl bg-gray-900 overflow-hidden mb-4">
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.18),transparent_65%)]"></div>
+          <div class="absolute inset-6 border-2 border-indigo-300/70 rounded-2xl"></div>
+          <div class="absolute left-6 top-6 w-6 h-6 border-l-4 border-t-4 border-white/80"></div>
+          <div class="absolute right-6 top-6 w-6 h-6 border-r-4 border-t-4 border-white/80"></div>
+          <div class="absolute left-6 bottom-6 w-6 h-6 border-l-4 border-b-4 border-white/80"></div>
+          <div class="absolute right-6 bottom-6 w-6 h-6 border-r-4 border-b-4 border-white/80"></div>
+          <div *ngIf="scanning" class="absolute left-0 right-0 h-1 bg-indigo-400/80 shadow-[0_0_12px_rgba(99,102,241,0.9)] transition-all duration-200" [style.top.%]="scanLineTop"></div>
+          <div class="absolute inset-0 flex items-center justify-center text-gray-200 text-sm">
+            Camera Preview (Demo)
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <div class="flex items-center justify-between text-sm text-gray-600 mb-2">
+            <span>Scan progress</span>
+            <span>{{ progress }}%</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+            <div class="h-2 bg-indigo-600 transition-all duration-200" [style.width.%]="progress"></div>
+          </div>
+        </div>
+
+        <div class="space-y-2 text-sm mb-4">
+          <p [ngClass]="stageClass(stage >= 1)">Face detected {{ stage >= 1 ? '✓' : '' }}</p>
+          <p [ngClass]="stageClass(stage >= 2)">Facial features analyzed {{ stage >= 2 ? '✓' : '' }}</p>
+          <p [ngClass]="stageClass(stage >= 3)">Identity verified {{ stage >= 3 ? '✓' : '' }}</p>
+        </div>
+
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-blue-900 mb-4">
+          Your biometric data is encrypted and processed securely for authentication only.
+        </div>
+
+        <p *ngIf="message" class="mb-3 text-sm rounded-lg p-3" [ngClass]="failed ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-emerald-50 border border-emerald-200 text-emerald-700'">{{ message }}</p>
+
+        <div class="flex gap-3">
+          <button type="button" (click)="startScan()" [disabled]="scanning" class="flex-1 py-3 rounded-xl font-semibold" [ngClass]="scanning ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-700'">
+            {{ scanning ? 'Scanning...' : 'Start Face Scan' }}
+          </button>
+          <button *ngIf="failed" type="button" (click)="retry()" class="px-4 py-3 rounded-xl font-semibold border border-gray-300 text-gray-700 hover:bg-gray-50">
+            Retry
+          </button>
+        </div>
+      </div>
+    </div>

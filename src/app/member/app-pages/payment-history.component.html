@@ -1,0 +1,20 @@
+<div class="p-6 max-w-2xl mx-auto">
+      <a routerLink=".." class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>Back</a>
+      <h1 class="text-2xl font-bold mb-2">Payment History</h1>
+      <p class="text-gray-600 mb-6">Track your monthly contributions and statuses.</p>
+      <div class="space-y-4 mb-6">
+        <div *ngFor="let payment of payments" class="bg-white rounded-xl border border-gray-200 p-4">
+          <div class="flex justify-between items-center mb-2">
+            <div>
+              <p class="font-semibold text-gray-900">{{ payment.amount }} DT</p>
+              <p class="text-sm text-gray-500">{{ payment.id }} - {{ payment.date }}</p>
+            </div>
+            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium" [ngClass]="payment.status === 'paid' ? 'bg-emerald-100 text-emerald-800' : (payment.status === 'pending' ? 'bg-amber-100 text-amber-800' : 'bg-red-100 text-red-800')">
+              {{ payment.status }}
+            </span>
+          </div>
+          <p class="text-sm text-gray-600">Method: {{ payment.method }}</p>
+        </div>
+      </div>
+      <a routerLink="/first-payment" class="block w-full text-center py-4 rounded-xl font-semibold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">Pay Next Contribution</a>
+    </div>

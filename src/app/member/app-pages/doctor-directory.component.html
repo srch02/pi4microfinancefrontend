@@ -1,0 +1,18 @@
+<div class="p-6 max-w-2xl mx-auto">
+      <h1 class="text-2xl font-bold mb-2">Find a Doctor</h1>
+      <p class="text-gray-600 mb-6">Book consultations with verified healthcare providers</p>
+      <input type="search" placeholder="Search by specialty, name, or location..." class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl mb-6" />
+      <div class="space-y-4">
+        <div *ngFor="let doctor of doctors" class="bg-white rounded-xl border border-gray-200 p-4">
+          <div class="flex gap-4">
+            <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0"><span class="text-xl font-bold text-indigo-600">{{ doctor.initial }}</span></div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-gray-900 mb-1">{{ doctor.name }}</h3>
+              <p class="text-sm text-gray-600 mb-2">{{ doctor.specialty }}</p>
+              <div class="flex items-center justify-between"><span class="text-lg font-bold text-gray-900">{{ doctor.fee }} DT</span><span *ngIf="doctor.available" class="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded">Available Today</span></div>
+            </div>
+          </div>
+          <button class="w-full mt-4 bg-indigo-600 text-white py-2 rounded-lg font-medium hover:bg-indigo-700 transition-colors">Book Consultation</button>
+        </div>
+      </div>
+    </div>

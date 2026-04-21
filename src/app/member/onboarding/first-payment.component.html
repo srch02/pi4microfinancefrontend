@@ -1,0 +1,65 @@
+<div class="min-h-screen flex flex-col p-6">
+      <div *ngIf="!paymentComplete; else successTpl" class="max-w-md mx-auto w-full flex-1">
+        <div class="bg-white rounded-2xl border-2 border-emerald-200 p-6 mb-6">
+          <div class="flex items-center gap-2 text-emerald-600 mb-3">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 12 5 5 9-9"/></svg>
+            <span class="font-semibold">Application Approved!</span>
+          </div>
+          <h1 class="text-2xl font-bold text-gray-900 mb-4">Complete Your First Payment</h1>
+          <div class="bg-gray-50 rounded-xl p-4">
+            <div class="flex justify-between items-center mb-2"><span class="text-sm text-gray-600">Plan</span><span class="font-semibold text-gray-900">{{ planName }}</span></div>
+            <div class="flex justify-between items-center"><span class="text-sm text-gray-600">Monthly Premium</span><span class="text-2xl font-bold text-indigo-600">{{ planPrice }} DT</span></div>
+          </div>
+        </div>
+        <h2 class="font-semibold text-gray-900 mb-4">Select Payment Method</h2>
+        <div class="space-y-3 mb-8">
+          <button
+            *ngFor="let method of paymentMethods"
+            type="button"
+            (click)="selectedMethod = method.id"
+            class="w-full flex items-center gap-4 rounded-xl border-2 p-4 text-left transition-colors"
+            [ngClass]="selectedMethod === method.id ? 'border-indigo-600 bg-indigo-50' : 'border-gray-200 bg-white hover:border-indigo-300'"
+          >
+            <div class="w-12 h-12 rounded-lg flex items-center justify-center" [ngClass]="method.color === 'orange' ? 'bg-orange-100 text-orange-600' : method.color === 'red' ? 'bg-red-100 text-red-600' : method.color === 'blue' ? 'bg-blue-100 text-blue-600' : 'bg-emerald-100 text-emerald-600'">
+              <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18"/></svg>
+            </div>
+            <div class="flex-1">
+              <p class="font-semibold text-gray-900">{{ method.name }}</p>
+              <p class="text-sm text-gray-500">{{ method.description }}</p>
+            </div>
+            <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center" [ngClass]="selectedMethod === method.id ? 'border-indigo-600 bg-indigo-600' : 'border-gray-300'">
+              <div *ngIf="selectedMethod === method.id" class="w-2 h-2 bg-white rounded-full"></div>
+            </div>
+          </button>
+        </div>
+
+        <button
+          type="button"
+          (click)="completePayment()"
+          [disabled]="!selectedMethod || processing"
+          class="w-full py-4 rounded-xl font-semibold text-lg transition-colors flex items-center justify-center gap-2"
+          [ngClass]="selectedMethod ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-gray-300 text-gray-500 cursor-not-allowed'"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+          {{ processing ? 'Processing payment...' : ('Pay ' + planPrice + ' DT Now') }}
+        </button>
+        <p *ngIf="paymentError" class="text-sm text-red-600 text-center mt-4">{{ paymentError }}</p>
+        <p class="text-xs text-gray-500 text-center mt-4">Your payment is secure and encrypted. You can cancel anytime.</p>
+      </div>
+    </div>
+
+    <ng-template #successTpl>
+      <div class="min-h-screen flex items-center justify-center p-6">
+        <div class="max-w-md w-full text-center">
+          <div class="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-[scale-in_0.5s_ease-out]">
+            <svg class="w-16 h-16 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 12 5 5 9-9"/></svg>
+          </div>
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">Welcome to Solidari-Health!</h2>
+          <div class="bg-emerald-50 border-2 border-emerald-200 rounded-2xl p-6 mb-6">
+            <p class="text-emerald-900 mb-2">Your account is now active</p>
+            <p class="text-sm text-emerald-700">Payment received - Plan: {{ planName }}</p>
+          </div>
+          <p class="text-gray-600">Redirecting to account setup...</p>
+        </div>
+      </div>
+    </ng-template>
