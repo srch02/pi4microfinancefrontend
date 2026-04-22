@@ -35,8 +35,19 @@ export class GroupsDashboardComponent {
     { id: 3, type: 'payment', user: 'Group', desc: 'Pool contribution', amount: 1035, date: '2024-02-01' },
   ];
 
+  habits = [
+    { id: '1', name: 'Submit weekly health report', color: '#5B52FF', completed: true },
+    { id: '2', name: 'Verify group member status', color: '#10b981', completed: false },
+    { id: '3', name: 'Check solidarity pool health', color: '#f59e0b', completed: false },
+  ];
+
   get poolPercentage(): number {
     return (this.groupData.poolBalance / 20000) * 100;
+  }
+
+  toggleHabit(id: string) {
+    const habit = this.habits.find(h => h.id === id);
+    if (habit) habit.completed = !habit.completed;
   }
 }
 

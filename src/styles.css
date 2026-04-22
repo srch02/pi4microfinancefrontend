@@ -2,9 +2,14 @@
 @import '../../template_src/src/styles/globals.css';
 
 @layer base {
+  html {
+    font-size: 18px; /* Slightly bigger to match "his big" */
+    font-family: 'Inter', sans-serif;
+  }
   html, body, app-root {
     min-height: 100vh;
     height: 100%;
     margin: 0;
+    color: #111827; /* text-gray-900 for "this dark" */
   }
 }
