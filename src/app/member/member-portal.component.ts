@@ -152,8 +152,13 @@ export class MemberPortalComponent implements AfterViewInit, OnDestroy {
     this.busy = true;
     this.errorMessage = '';
     this.authService.login(this.username, this.password, this.recaptchaToken || undefined).subscribe({
-      next: () => {
-        this.router.navigate(['/app']);
+      next: (response) => {
+        const role = response.role?.toUpperCase();
+        if (role === 'ADMIN') {
+          this.router.navigate(['/admin/dashboard']);
+        } else {
+          this.router.navigate(['/app']);
+        }
       },
       error: (err: any) => {
         this.errorMessage = err?.error?.message || err?.message || 'Invalid credentials. Please try again.';

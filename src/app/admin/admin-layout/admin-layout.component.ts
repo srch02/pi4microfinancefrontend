@@ -13,5 +13,6 @@ export class AdminLayoutComponent {
     { id: 'claims-scoring', label: 'Claims & Scoring', route: '/admin/claims-scoring', icon: 'clipboardList', subtitle: 'Module 2' },
     { id: 'health-services', label: 'Health Services', route: '/admin/health-services', icon: 'hospital', subtitle: 'Module 3' },
     { id: 'analytics-admin', label: 'Analytics & Admin', route: '/admin/analytics', icon: 'barChart', subtitle: 'Module 4' },
+    { id: 'adherence', label: 'Adherence Tracking', route: '/admin/adherence', icon: 'activity', subtitle: 'Members' },
   ];
 }

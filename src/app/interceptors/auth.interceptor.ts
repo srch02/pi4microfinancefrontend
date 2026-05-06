@@ -13,6 +13,11 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private readonly auth: AuthService) {}
 
 intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  // Ne pas ajouter le token JWT pour les requêtes externes (Gemini, etc.)
+  if (req.url.includes('generativelanguage.googleapis.com')) {
+    return next.handle(req);
+  }
+
   const token = this.auth.getAccessToken();
 
   console.log('TOKEN INTERCEPTOR =', token);

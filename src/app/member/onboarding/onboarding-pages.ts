@@ -200,6 +200,10 @@ export class MemberProfileOnboardingComponent {
           this.error = 'Member was created but could not be found for this CIN. Please retry or refresh.';
           return;
         }
+        // Stocke le memberId pour la création de compte
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('onboarding_member_id', String(memberId));
+        }
         this.router.navigate(['/browse-groups'], { queryParams: { memberId } });
       },
       error: () => {
@@ -239,7 +243,10 @@ export class MemberProfileOnboardingComponent {
           this.continueUsingCinLookup(cinNumber);
           return;
         }
-        // Keep registration flow public; guarded member-app requires an authenticated session.
+        // Stocke le memberId pour la création de compte (liaison automatique)
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('onboarding_member_id', String(memberId));
+        }
         this.router.navigate(['/browse-groups'], { queryParams: { memberId } });
       },
       error: (e) => {
@@ -449,18 +456,29 @@ export class CreateAccountComponent {
     this.errorMessage = null;
     this.busy = true;
 
-    const payload = {
+    // Récupère le memberId stocké pendant l'onboarding
+    const storedMemberId = this.getOnboardingMemberId();
+
+    const payload: any = {
       username: this.formData.username.trim(),
       email: this.formData.email.trim(),
       password: this.formData.password,
     };
 
+    // Si un memberId est disponible, on le passe pour lier directement
+    if (storedMemberId) {
+      payload.memberId = storedMemberId;
+    }
+
     this.auth.createAccount(payload).subscribe({
       next: () => {
-        // Most backends keep register/login separate; sign in immediately after successful registration.
         this.auth.login(payload.username, payload.password).subscribe({
           next: () => {
             this.busy = false;
+            // Nettoie le memberId temporaire
+            if (typeof localStorage !== 'undefined') {
+              localStorage.removeItem('onboarding_member_id');
+            }
             this.router.navigate(['/app']);
           },
           error: (e) => {
@@ -483,5 +501,13 @@ export class CreateAccountComponent {
           'Could not create account. Check backend connectivity and try again.';
       },
     });
+  }
+
+  private getOnboardingMemberId(): number | null {
+    if (typeof localStorage === 'undefined') return null;
+    const raw = localStorage.getItem('onboarding_member_id');
+    if (!raw) return null;
+    const n = Number(raw);
+    return Number.isFinite(n) && n > 0 ? n : null;
   }
 }

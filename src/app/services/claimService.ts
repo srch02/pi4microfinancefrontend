@@ -31,8 +31,19 @@ export interface ClaimResponse {
   groupId: number | null;
 }
 
+export interface ClaimDocument {
+  id: number;
+  originalFilename: string;
+  contentType: string;
+  sizeBytes: number;
+  documentType: string;
+  fraudDetectionScore: number | null;
+  createdAt: string;
+  fileUrl: string | null;
+}
+
 export interface ClaimCreateRequest {
-  memberId: number;
+  memberId?: number;
   groupId: number;
   claimNumber: string;
   amountRequested: number;
@@ -90,6 +101,8 @@ private readonly apiUrl = 'http://localhost:8080/api/claims';
     if (params?.status && params.status !== 'ALL') {
       httpParams = httpParams.set('status', params.status);
     }
+    // Sort by createdAt descending — newest first, server-side across all pages
+    httpParams = httpParams.set('sort', 'createdAt,desc');
 
     return firstValueFrom(
       this.http.get<PageResponse<ClaimResponse>>(this.apiUrl, { params: httpParams })
@@ -99,6 +112,12 @@ private readonly apiUrl = 'http://localhost:8080/api/claims';
   getById(id: number): Promise<ClaimResponse> {
     return firstValueFrom(
       this.http.get<ClaimResponse>(`${this.apiUrl}/${id}`)
+    );
+  }
+
+  getDocuments(claimId: number): Promise<ClaimDocument[]> {
+    return firstValueFrom(
+      this.http.get<ClaimDocument[]>(`${this.apiUrl}/${claimId}/documents`)
     );
   }
 

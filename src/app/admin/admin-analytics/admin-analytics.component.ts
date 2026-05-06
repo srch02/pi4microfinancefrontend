@@ -133,14 +133,14 @@ export class AdminAnalyticsComponent {
             display: true,
             position: 'left',
             grid: { color: '#e5e7eb', tickLength: 0 },
-            ticks: { callback: (value) => `${(value as number) / 1000}k` }
+            ticks: { callback: (value: number | string) => `${(value as number) / 1000}k` }
           },
           y1: {
             type: 'linear',
             display: true,
             position: 'right',
             grid: { drawOnChartArea: false },
-            ticks: { callback: (value) => `${(value as number) / 1000}k` }
+            ticks: { callback: (value: number | string) => `${(value as number) / 1000}k` }
           }
         }
       }
@@ -176,7 +176,7 @@ export class AdminAnalyticsComponent {
             borderColor: '#e5e7eb',
             borderWidth: 1,
             callbacks: {
-              label: (context) => ` ${context.parsed.toLocaleString()}`
+              label: (context: import('chart.js').TooltipItem<'doughnut'>) => ` ${context.parsed.toLocaleString()}`
             }
           }
         }

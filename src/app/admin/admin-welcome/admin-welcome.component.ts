@@ -45,14 +45,22 @@ export class AdminWelcomeComponent {
     this.loginError = '';
     this.isLoggingIn = true;
 
-    setTimeout(() => {
-      if (this.username === 'admin' && this.password === 'admin123') {
-        this.navigateToAdminDashboard();
-      } else {
-        this.loginError = 'Invalid credentials. Please try again.';
+    this.authService.login(this.username, this.password).subscribe({
+      next: (response) => {
+        const role = response.role?.toUpperCase();
+        if (role === 'ADMIN') {
+          this.router.navigate(['/admin/dashboard']);
+        } else {
+          this.loginError = 'Access denied. Admin account required.';
+          this.authService.logout();
+          this.isLoggingIn = false;
+        }
+      },
+      error: (err: any) => {
+        this.loginError = err?.error?.message || 'Invalid credentials. Please try again.';
         this.isLoggingIn = false;
       }
-    }, 800);
+    });
   }
 
   navigateToAdminDashboard() {

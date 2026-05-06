@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MemberAuthGuard } from './guards/member-auth.guard';
+import { AdminAuthGuard } from './guards/admin-auth.guard';
 import {
   CinVerificationComponent,
   BrowseGroupsComponent,
@@ -42,6 +43,7 @@ import { AdminGroupsPaymentsComponent } from './admin/admin-groups-payments/admi
 import { AdminClaimsScoringComponent } from './admin/admin-claims-scoring/admin-claims-scoring.component';
 import { AdminHealthServicesComponent } from './admin/admin-health-services/admin-health-services.component';
 import { AdminAnalyticsComponent } from './admin/admin-analytics/admin-analytics.component';
+import { AdminAdherenceComponent } from './admin/admin-adherence/admin-adherence.component';
 import { SubmitClaimComponent } from './member/app-pages/Score/submit-claim/submit-claim';
 import { ClaimListComponent } from './member/app-pages/Score/claim-list/claim-list';
 import { MemberRewardsComponent } from './member/app-pages/Score/member-reward/member-reward';
@@ -51,6 +53,7 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminLayoutComponent,
+    canActivate: [AdminAuthGuard],
     children: [
       { path: 'dashboard', component: AdminOverviewComponent },
       { path: 'pre-registration', component: AdminPreRegistrationComponent },
@@ -58,6 +61,7 @@ const routes: Routes = [
       { path: 'claims-scoring', component: AdminClaimsScoringComponent },
       { path: 'health-services', component: AdminHealthServicesComponent },
       { path: 'analytics', component: AdminAnalyticsComponent },
+      { path: 'adherence', component: AdminAdherenceComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

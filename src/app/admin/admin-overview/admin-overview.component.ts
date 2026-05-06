@@ -199,7 +199,7 @@ export class AdminOverviewComponent implements AfterViewInit {
             grid: { color: '#e5e7eb', tickLength: 0 },
             border: { dash: [4, 4] },
             ticks: {
-              callback: (value) => `${(value as number) / 1000}k`
+              callback: (value: number | string) => `${(value as number) / 1000}k`
             }
           }
         }

@@ -47,6 +47,7 @@ import { AdminGroupsPaymentsComponent } from './admin/admin-groups-payments/admi
 import { AdminClaimsScoringComponent } from './admin/admin-claims-scoring/admin-claims-scoring.component';
 import { AdminHealthServicesComponent } from './admin/admin-health-services/admin-health-services.component';
 import { AdminAnalyticsComponent } from './admin/admin-analytics/admin-analytics.component';
+import { AdminAdherenceComponent } from './admin/admin-adherence/admin-adherence.component';
 import { ClaimHistory } from './member/app-pages/Score/claim-history/claim-history';
 import { SubmitClaimComponent } from './member/app-pages/Score/submit-claim/submit-claim';
 import { ClaimListComponent } from './member/app-pages/Score/claim-list/claim-list';
@@ -94,6 +95,7 @@ import { MemberRewardsComponent } from './member/app-pages/Score/member-reward/m
     AdminClaimsScoringComponent,
     AdminHealthServicesComponent,
     AdminAnalyticsComponent,
+    AdminAdherenceComponent,
   ],
   imports: [
     BrowserModule,

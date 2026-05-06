@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ClaimResponse, ClaimService } from '../../../../services/claimService';
+import { AuthService } from '../../../../services/auth.service';
 
 type FormDataState = {
-  memberId: string;
   groupId: string;
   claimNumber: string;
   expenseType: string;
@@ -20,14 +20,15 @@ type FormDataState = {
   templateUrl: './submit-claim.html',
   styleUrls: ['./submit-claim.css'],
 })
-export class SubmitClaimComponent {
+export class SubmitClaimComponent implements OnInit {
   step = 1;
   submitting = false;
   errorMessage = '';
   createdClaim: ClaimResponse | null = null;
   selectedBulletin: File | null = null;
+  currentMemberId: number | null = null;
+
   formData: FormDataState = {
-    memberId: '',
     groupId: '',
     claimNumber: '',
     expenseType: '',
@@ -45,8 +46,14 @@ export class SubmitClaimComponent {
 
   constructor(
     private router: Router,
-    private claimService: ClaimService
+    private claimService: ClaimService,
+    private authService: AuthService
   ) {}
+
+  ngOnInit(): void {
+    const user = this.authService.getCurrentUser();
+    this.currentMemberId = user?.memberId ?? null;
+  }
 
   get score(): number {
     let total = 0;
@@ -58,7 +65,7 @@ export class SubmitClaimComponent {
 
   get canContinueStep1(): boolean {
     return !!(
-      this.formData.memberId &&
+      this.currentMemberId &&
       this.formData.groupId &&
       this.formData.expenseType &&
       this.formData.amount &&
@@ -106,30 +113,37 @@ export class SubmitClaimComponent {
         return;
       }
 
-      const payload = {
-        memberId: Number(this.formData.memberId),
-        groupId: Number(this.formData.groupId),
-        claimNumber: this.formData.claimNumber.trim() || this.generateClaimNumber(),
-        amountRequested: Number(this.formData.amount),
-      };
-
-      console.log('Submitting claim payload:', payload);
-
       this.submitting = true;
-      const response = await this.claimService.create(payload);
-    await this.router.navigate(['/app/claims/my']);
 
-  } catch (error: any) {
-    console.error('Submit claim failed:', error);
+      if (this.selectedBulletin) {
+        await this.claimService.createWithBulletin({
+          memberId: this.currentMemberId ?? undefined,
+          groupId: Number(this.formData.groupId),
+          claimNumber: this.formData.claimNumber.trim() || undefined,
+          amountRequested: Number(this.formData.amount),
+          bulletin: this.selectedBulletin,
+        });
+      } else {
+        await this.claimService.create({
+          memberId: this.currentMemberId ?? undefined,
+          groupId: Number(this.formData.groupId),
+          claimNumber: this.formData.claimNumber.trim() || this.generateClaimNumber(),
+          amountRequested: Number(this.formData.amount),
+        });
+      }
 
-    this.errorMessage =
-      error?.error?.message ||
-      error?.message ||
-      'Failed to submit claim.';
-  } finally {
-    this.submitting = false;
+      await this.router.navigate(['/app/claims/my']);
+
+    } catch (error: any) {
+      console.error('Submit claim failed:', error);
+      this.errorMessage =
+        error?.error?.message ||
+        error?.message ||
+        'Failed to submit claim.';
+    } finally {
+      this.submitting = false;
+    }
   }
-}
 
   getStatusLabel(status?: string | null): string {
     switch (status) {
