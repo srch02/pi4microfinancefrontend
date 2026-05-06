@@ -4,6 +4,7 @@ import { API_CONFIG } from '../../config/api.config';
 import { AuthService } from '../../services/auth.service';
 import { MemberService } from '../../services/member.service';
 import { MedicalHistoryFormData, PaymentMethod, PlanOption } from '../models/member.models';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-welcome',
@@ -333,31 +334,45 @@ export class FirstPaymentComponent implements OnInit {
     }
   }
 
-  completePayment(): void {
-    if (!this.selectedMethod || this.processing) return;
-    this.paymentError = null;
-    const membershipId = this.membershipId ?? API_CONFIG.devMembershipId;
-    if (membershipId == null && !this.auth.isAuthenticated()) {
-      this.paymentError =
-        'Add ?membershipId=<id> to the URL, set devMembershipId in environment.ts, or sign in so the API can resolve your pending membership.';
+completePayment(): void {
+  if (!this.selectedMethod || this.processing) return;
+
+  this.paymentError = null;
+  const membershipId = this.membershipId ?? API_CONFIG.devMembershipId;
+
+  if (membershipId == null && !this.auth.isAuthenticated()) {
+    if (!environment.production) {
+      console.warn('Dev mode: no membership yet, skipping payment API call.');
+      this.paymentComplete = true;
+
+      setTimeout(() => {
+        this.router.navigate(['/create-account']);
+      }, 1000);
+
       return;
     }
-    this.processing = true;
-    this.memberService.submitPayment(this.selectedMethod, membershipId ?? undefined).subscribe({
-      next: () => {
-        this.processing = false;
-        this.paymentComplete = true;
-        setTimeout(() => {
-          this.router.navigate(['/create-account']);
-        }, 2000);
-      },
-      error: () => {
-        this.processing = false;
-        this.paymentError =
-          'Could not reach the API. Start Spring Boot on port 8080 and ensure membershipId is valid (pending membership).';
-      },
-    });
+
+    this.paymentError =
+      'Add ?membershipId=<id> to the URL, set devMembershipId in environment.ts, or sign in so the API can resolve your pending membership.';
+    return;
   }
+
+  this.processing = true;
+  this.memberService.submitPayment(this.selectedMethod, membershipId ?? undefined).subscribe({
+    next: () => {
+      this.processing = false;
+      this.paymentComplete = true;
+      setTimeout(() => {
+        this.router.navigate(['/create-account']);
+      }, 2000);
+    },
+    error: () => {
+      this.processing = false;
+      this.paymentError =
+        'Could not reach the API. Start Spring Boot on port 8080 and ensure membershipId is valid (pending membership).';
+    },
+  });
+}
 }
 
 @Component({

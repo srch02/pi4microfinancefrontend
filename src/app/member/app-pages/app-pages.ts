@@ -40,36 +40,6 @@ export class GroupsDashboardComponent {
   }
 }
 
-@Component({
-  selector: 'app-submit-claim',
-  templateUrl: './submit-claim.component.html',
-  standalone: false,
-})
-export class SubmitClaimComponent {
-  step = 1;
-  score = 78;
-  steps = [1, 2, 3];
-  formData: ClaimFormData = { expenseType: '', amount: '', description: '' };
-  constructor(
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-  ) {}
-  submitClaim(): void {
-    this.router.navigate(['claims-history'], { relativeTo: this.route.parent });
-  }
-}
-
-@Component({
-  selector: 'app-claims-history',
-  templateUrl: './claims-history.component.html',
-  standalone: false,
-})
-export class ClaimsHistoryComponent {
-  claims: ClaimHistoryItem[] = [
-    { id: 'C-001', type: 'Consultation', amount: 45, status: 'approved', score: 92, date: '2024-02-01' },
-    { id: 'C-002', type: 'Medication', amount: 65, status: 'pending', score: 78, date: '2024-02-10' },
-  ];
-}
 
 @Component({
   selector: 'app-rewards-challenge',

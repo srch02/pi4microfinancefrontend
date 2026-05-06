@@ -8,7 +8,6 @@ import { App } from './app';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import {
   CinVerificationComponent,
-  ClaimsHistoryComponent,
   BrowseGroupsComponent,
   MemberChatbotComponent,
   MemberMessagesComponent,
@@ -33,13 +32,16 @@ import {
   PlanSelectionComponent,
   PriceCalculationComponent,
   RewardsChallengeComponent,
-  SubmitClaimComponent,
   TelemedicineBookingComponent,
   VideoCallComponent,
   WaitingApprovalComponent,
   WelcomeComponent,
   CreateAccountComponent,
 } from './member';
+import { ClaimHistory } from './member/app-pages/Score/claim-history/claim-history';
+import { SubmitClaimComponent } from './member/app-pages/Score/submit-claim/submit-claim';
+import { ClaimListComponent } from './member/app-pages/Score/claim-list/claim-list';
+import { MemberRewardsComponent } from './member/app-pages/Score/member-reward/member-reward';
 
 @NgModule({
   declarations: [
@@ -65,8 +67,6 @@ import {
     MemberMessagesComponent,
     InvitationQrComponent,
     MemberChatbotComponent,
-    SubmitClaimComponent,
-    ClaimsHistoryComponent,
     RewardsChallengeComponent,
     DoctorDirectoryComponent,
     MedicationRecommendationsComponent,
@@ -81,13 +81,16 @@ import {
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SubmitClaimComponent,
+    ClaimListComponent,
+    MemberRewardsComponent
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideClientHydration(withEventReplay()),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
-  bootstrap: [App]
+  bootstrap: [App],
 })
-export class AppModule { }
+export class AppModule {}

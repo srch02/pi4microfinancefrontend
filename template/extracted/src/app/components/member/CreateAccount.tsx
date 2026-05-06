@@ -77,7 +77,14 @@ export function CreateAccount() {
     // Navigate to waiting for approval
     navigate('/waiting-approval');
   };
-
+console.log({
+  recaptchaVerified,
+  isPasswordValid,
+  passwordsMatch,
+  username: formData.username,
+  email: formData.email,
+  passwordValidation,
+});
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 pb-20">
       {/* Header */}

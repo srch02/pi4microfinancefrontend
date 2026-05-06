@@ -1,0 +1,135 @@
+<div class="claims-page">
+  <div class="page-header">
+    <div>
+      <h2>Mes réclamations</h2>
+      <p>Consultez l'historique de vos claims.</p>
+    </div>
+
+    <a routerLink="/claims/create" class="btn-primary">
+      Nouveau claim
+    </a>
+  </div>
+
+  <div class="filters">
+    <label for="status">Filtrer par statut</label>
+
+    <select
+      id="status"
+      [(ngModel)]="selectedStatus"
+      (change)="onStatusChange()"
+    >
+      <option *ngFor="let status of statuses" [value]="status">
+        {{ status === 'ALL' ? 'Tous les statuts' : getStatusLabel(status) }}
+      </option>
+    </select>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+  Chargement des réclamations...
+</div>
+
+<div *ngIf="!loading && errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+  <div *ngIf="!loading && !errorMessage && claims.length === 0" class="empty">
+    Aucun claim trouvé.
+  </div>
+
+  <div *ngIf="!loading && claims.length > 0" class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>N° Claim</th>
+          <th>Statut</th>
+          <th>Montant demandé</th>
+          <th>Montant approuvé</th>
+          <th>Score</th>
+          <th>Date claim</th>
+          <th>Dernière mise à jour</th>
+          <th>Groupe</th>
+          <th>Décision</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let claim of claims">
+          <td class="claim-number">
+            {{ claim.claimNumber }}
+          </td>
+
+          <td>
+            <span class="status-badge" [ngClass]="getStatusClass(claim.status)">
+              {{ getStatusLabel(claim.status) }}
+            </span>
+          </td>
+
+          <td>
+            {{ claim.amountRequested | number: '1.2-2' }} DT
+          </td>
+
+          <td>
+            <span *ngIf="claim.amountApproved !== null; else noApproved">
+              {{ claim.amountApproved | number: '1.2-2' }} DT
+            </span>
+
+            <ng-template #noApproved>
+              -
+            </ng-template>
+          </td>
+
+          <td>
+            <span *ngIf="claim.finalScoreSnapshot !== null; else noScore">
+              {{ claim.finalScoreSnapshot }}
+            </span>
+
+            <ng-template #noScore>
+              -
+            </ng-template>
+          </td>
+
+          <td>
+            {{ claim.createdAt ? (claim.createdAt | date: 'dd/MM/yyyy HH:mm') : '-' }}
+          </td>
+
+          <td>
+            {{ claim.updatedAt ? (claim.updatedAt | date: 'dd/MM/yyyy HH:mm') : '-' }}
+          </td>
+
+          <td>
+            {{ claim.groupId || '-' }}
+          </td>
+
+          <td>
+            <span *ngIf="claim.decisionReason; else noDecision">
+              {{ claim.decisionReason }}
+            </span>
+
+            <ng-template #noDecision>
+              -
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="totalPages > 1" class="pagination">
+    <button type="button" (click)="previousPage()" [disabled]="page === 0">
+      Précédent
+    </button>
+
+    <span>
+      Page {{ page + 1 }} / {{ totalPages }}
+      — {{ totalElements }} claim(s)
+    </span>
+
+    <button
+      type="button"
+      (click)="nextPage()"
+      [disabled]="page + 1 >= totalPages"
+    >
+      Suivant
+    </button>
+  </div>
+</div>

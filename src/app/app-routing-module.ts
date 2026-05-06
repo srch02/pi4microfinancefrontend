@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { MemberAuthGuard } from './guards/member-auth.guard';
 import {
   CinVerificationComponent,
-  ClaimsHistoryComponent,
   BrowseGroupsComponent,
   MemberChatbotComponent,
   MemberMessagesComponent,
@@ -28,13 +27,15 @@ import {
   PlanSelectionComponent,
   PriceCalculationComponent,
   RewardsChallengeComponent,
-  SubmitClaimComponent,
   TelemedicineBookingComponent,
   VideoCallComponent,
   WaitingApprovalComponent,
   WelcomeComponent,
   CreateAccountComponent,
 } from './member';
+import { SubmitClaimComponent } from './member/app-pages/Score/submit-claim/submit-claim';
+import { ClaimListComponent } from './member/app-pages/Score/claim-list/claim-list';
+import { MemberRewardsComponent } from './member/app-pages/Score/member-reward/member-reward';
 
 const routes: Routes = [
   {
@@ -44,8 +45,11 @@ const routes: Routes = [
     children: [
       { path: '', component: GroupsDashboardComponent },
       { path: 'submit-claim', component: SubmitClaimComponent },
-      { path: 'claims-history', component: ClaimsHistoryComponent },
-      { path: 'rewards', component: RewardsChallengeComponent },
+      {
+        path: 'claims/my',
+        component: ClaimListComponent,
+      },
+      { path: 'rewards', component: MemberRewardsComponent },
       { path: 'doctors', component: DoctorDirectoryComponent },
       { path: 'create-join-group', component: BrowseGroupsComponent },
       { path: 'browse-groups', component: BrowseGroupsComponent },
@@ -73,7 +77,15 @@ const routes: Routes = [
         children: [
           { path: '', component: GroupsDashboardComponent },
           { path: 'submit-claim', component: SubmitClaimComponent },
-          { path: 'claims-history', component: ClaimsHistoryComponent },
+          {
+    path: 'claims/my',
+    component: ClaimListComponent,
+  },
+  {
+    path: 'claims',
+    redirectTo: 'claims/my',
+    pathMatch: 'full',
+  },
           { path: 'rewards', component: RewardsChallengeComponent },
           { path: 'doctors', component: DoctorDirectoryComponent },
           { path: 'create-join-group', component: BrowseGroupsComponent },

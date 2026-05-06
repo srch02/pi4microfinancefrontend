@@ -1,0 +1,24 @@
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.form-group input[type="file"] {
+  display: block;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  width: 100%;
+}
+
+.selected-file {
+  margin-top: 8px;
+  color: #2563eb;
+  font-size: 14px;
+}
