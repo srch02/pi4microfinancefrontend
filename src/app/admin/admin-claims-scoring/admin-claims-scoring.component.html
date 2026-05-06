@@ -1,0 +1,185 @@
+<div class="p-8">
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Claims & Scoring</h1>
+    <p class="text-gray-500 mt-1">Module 2 - Review claims, check fraud scores, and make decisions</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+    <div class="bg-white rounded-lg p-6 border border-gray-200">
+      <p class="text-sm text-gray-600 mb-1">Pending Claims</p>
+      <p class="text-3xl font-bold text-gray-900">{{ pendingClaims.length }}</p>
+    </div>
+    <div class="bg-white rounded-lg p-6 border border-gray-200">
+      <p class="text-sm text-gray-600 mb-1">High Risk</p>
+      <p class="text-3xl font-bold text-red-600">{{ highRiskCount }}</p>
+    </div>
+    <div class="bg-white rounded-lg p-6 border border-gray-200">
+      <p class="text-sm text-gray-600 mb-1">Medium Risk</p>
+      <p class="text-3xl font-bold text-yellow-600">{{ mediumRiskCount }}</p>
+    </div>
+    <div class="bg-white rounded-lg p-6 border border-gray-200">
+      <p class="text-sm text-gray-600 mb-1">Low Risk</p>
+      <p class="text-3xl font-bold text-green-600">{{ lowRiskCount }}</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Claims Queue -->
+    <div class="lg:col-span-2">
+      <div class="bg-white rounded-lg border border-gray-200">
+        <div class="p-6 border-b border-gray-200">
+          <h2 class="text-lg font-semibold">Claims Queue</h2>
+        </div>
+        <div class="divide-y divide-gray-200">
+          <div 
+            *ngFor="let claim of claims"
+            class="p-6 transition-colors"
+            [ngClass]="{
+              'hover:bg-gray-50': claim.status === 'pending',
+              'opacity-60': claim.status !== 'pending',
+              'bg-blue-50': selectedClaim?.id === claim.id
+            }"
+          >
+            <div class="flex items-start justify-between mb-3">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2">
+                  <h3 class="font-semibold text-gray-900">{{ claim.patientName }}</h3>
+                  <span class="text-xs text-gray-500">({{ claim.id }})</span>
+                </div>
+                <p class="text-sm text-gray-600">{{ claim.groupName }}</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-1 rounded text-xs font-medium" [ngClass]="getRiskColor(claim.riskScore)">
+                  {{ getRiskLabel(claim.riskScore) }} ({{ claim.riskScore }})
+                </span>
+                <button
+                  *ngIf="claim.status === 'pending'"
+                  (click)="selectClaim(claim)"
+                  class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                >
+                  <!-- Eye Icon -->
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 text-sm mb-3">
+              <div>
+                <p class="text-xs text-gray-500">Type</p>
+                <p class="font-medium">{{ claim.type }}</p>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500">Amount</p>
+                <p class="font-medium">{{ claim.amount | number:'1.2-2' }} TND</p>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500">Submitted</p>
+                <p class="font-medium">{{ claim.submittedDate | date:'MMM d' }}</p>
+              </div>
+            </div>
+
+            <div *ngIf="claim.fraudFlags.length > 0" class="flex items-start gap-2 p-3 bg-red-50 rounded border border-red-200">
+              <!-- Alert Triangle Icon -->
+              <svg class="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <div class="text-xs text-red-800">
+                <p *ngFor="let flag of claim.fraudFlags">• {{ flag }}</p>
+              </div>
+            </div>
+
+            <div *ngIf="claim.status !== 'pending'" class="mt-3 flex items-center gap-2 text-sm font-medium" [ngClass]="claim.status === 'approved' ? 'text-green-600' : 'text-red-600'">
+              <ng-container *ngIf="claim.status === 'approved'">
+                <!-- Check Circle Icon -->
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span>Approved</span>
+              </ng-container>
+              <ng-container *ngIf="claim.status === 'rejected'">
+                <!-- X Circle Icon -->
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                <span>Rejected</span>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manual Review Panel -->
+    <div class="lg:col-span-1">
+      <div class="bg-white rounded-lg border border-gray-200 p-6 sticky top-8">
+        <ng-container *ngIf="selectedClaim; else noSelection">
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Manual Review</h3>
+            <div class="space-y-4">
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Claim ID</p>
+                <p class="font-mono text-sm">{{ selectedClaim.id }}</p>
+              </div>
+
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Patient</p>
+                <p class="font-semibold">{{ selectedClaim.patientName }}</p>
+              </div>
+
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Group</p>
+                <p class="font-medium">{{ selectedClaim.groupName }}</p>
+              </div>
+
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Claim Type</p>
+                <p class="font-medium">{{ selectedClaim.type }}</p>
+              </div>
+
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Amount</p>
+                <p class="text-2xl font-bold text-gray-900">{{ selectedClaim.amount | number:'1.2-2' }} TND</p>
+              </div>
+
+              <div>
+                <p class="text-sm text-gray-500 mb-2">Risk Assessment</p>
+                <div class="p-3 rounded-lg" [ngClass]="getRiskColor(selectedClaim.riskScore)">
+                  <p class="font-semibold">{{ getRiskLabel(selectedClaim.riskScore) }}</p>
+                  <p class="text-2xl font-bold mt-1">Score: {{ selectedClaim.riskScore }}</p>
+                </div>
+              </div>
+
+              <div *ngIf="selectedClaim.fraudFlags.length > 0">
+                <p class="text-sm text-gray-500 mb-2">Fraud Flags</p>
+                <div class="space-y-2">
+                  <div *ngFor="let flag of selectedClaim.fraudFlags" class="flex items-start gap-2 text-sm">
+                    <svg class="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <span class="text-red-800">{{ flag }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-4 space-y-2">
+                <button
+                  (click)="handleApprove(selectedClaim.id)"
+                  class="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  Approve Claim
+                </button>
+                <button
+                  (click)="handleReject(selectedClaim.id)"
+                  class="w-full bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center gap-2"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                  Reject Claim
+                </button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noSelection>
+          <div class="text-center text-gray-500 py-12">
+            <svg class="w-12 h-12 mx-auto mb-3 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <p>Select a claim to review</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

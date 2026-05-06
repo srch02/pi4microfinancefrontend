@@ -1,121 +1,219 @@
-<div class="p-6 max-w-4xl mx-auto">
-      <div class="bg-gradient-to-r from-indigo-600 to-blue-600 rounded-2xl p-6 text-white mb-6">
-        <div class="flex items-start justify-between mb-4">
+<div class="p-8 space-y-6 bg-gray-50 min-h-screen max-w-6xl mx-auto">
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-gray-900">Member Overview</h1>
+      <p class="text-gray-500 mt-1">Welcome back! Here's your solidarity group status.</p>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="text-right">
+        <p class="text-sm text-gray-600">Active Group</p>
+        <p class="text-sm font-semibold text-[#5B52FF]">{{ groupData.name }}</p>
+      </div>
+      <div class="w-12 h-12 bg-[#5B52FF] rounded-xl flex items-center justify-center shadow-lg">
+        <svg class="w-6 h-6 text-white fill-white" viewBox="0 0 24 24" fill="currentColor"><path d="m12 21-1.4-1.2C5.4 15 2 12 2 8.5 2 5.4 4.4 3 7.5 3c1.7 0 3.4.8 4.5 2.1C13.1 3.8 14.8 3 16.5 3 19.6 3 22 5.4 22 8.5c0 3.5-3.4 6.5-8.6 11.3L12 21z"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI Cards Row -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <!-- Adherence Score -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all">
+      <div class="flex items-start justify-between mb-4">
+        <div class="p-3 rounded-xl bg-gradient-to-br from-[#5B52FF] to-[#4B42EF] shadow-lg shadow-[#5B52FF]/30">
+          <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="m8.2 13.5-1.3 7 5.1-3 5.1 3-1.3-7"/></svg>
+        </div>
+        <div class="flex items-center gap-1">
+          <svg class="w-4 h-4 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          <span class="text-xs font-semibold text-green-600">GOOD</span>
+        </div>
+      </div>
+      <div>
+        <p class="text-sm text-gray-600 mb-1">Adherence Score</p>
+        <p class="text-3xl font-bold text-gray-900">{{ groupData.adherenceScore }}%</p>
+        <p class="text-xs text-gray-500 mt-1">based on contributions</p>
+      </div>
+    </div>
+
+    <!-- Pool Balance -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all">
+      <div class="flex items-start justify-between mb-4">
+        <div class="p-3 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-500/30">
+          <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+        </div>
+        <div class="flex items-center gap-1">
+          <span class="text-xs font-semibold text-emerald-600">STABLE</span>
+        </div>
+      </div>
+      <div>
+        <p class="text-sm text-gray-600 mb-1">Group Pool Balance</p>
+        <p class="text-3xl font-bold text-gray-900">{{ groupData.poolBalance | number }} DT</p>
+        <div class="mt-2 w-full bg-gray-100 rounded-full h-1.5">
+          <div class="bg-emerald-500 h-1.5 rounded-full" [style.width.%]="poolPercentage"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Next Payment -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all">
+      <div class="flex items-start justify-between mb-4">
+        <div class="p-3 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg shadow-amber-500/30">
+          <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
+        </div>
+        <div class="flex items-center gap-1">
+          <span class="text-xs font-semibold text-amber-600">DUE SOON</span>
+        </div>
+      </div>
+      <div>
+        <p class="text-sm text-gray-600 mb-1">Next Contribution</p>
+        <p class="text-3xl font-bold text-gray-900">{{ groupData.nextPaymentAmount }} DT</p>
+        <p class="text-xs text-gray-500 mt-1">Due on {{ groupData.nextPaymentDue }}</p>
+      </div>
+    </div>
+
+    <!-- Group Members -->
+    <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all">
+      <div class="flex items-start justify-between mb-4">
+        <div class="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg shadow-blue-500/30">
+          <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="flex items-center gap-1">
+          <span class="text-xs font-semibold text-blue-600">ACTIVE</span>
+        </div>
+      </div>
+      <div>
+        <p class="text-sm text-gray-600 mb-1">Group Size</p>
+        <p class="text-3xl font-bold text-gray-900">{{ groupData.memberCount }}</p>
+        <p class="text-xs text-gray-500 mt-1">Verified members</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Main Content: Solidarity Actions (Habit Checklist Style) -->
+    <div class="lg:col-span-2 space-y-6">
+      <div class="bg-white rounded-3xl p-8 border border-gray-200 shadow-sm">
+        <div class="flex items-center justify-between mb-6">
           <div>
-            <p class="text-indigo-100 text-sm mb-1">Your Solidarity Group</p>
-            <h2 class="text-2xl font-bold mb-1">{{ groupData.name }}</h2>
-            <p class="text-indigo-100">{{ groupData.type }} - {{ groupData.memberCount }} members</p>
+            <h2 class="text-xl font-bold text-gray-900">Your Solidarity Goals</h2>
+            <p class="text-sm text-gray-500">Complete these to keep your score high</p>
           </div>
-          <div class="bg-white/20 backdrop-blur-sm rounded-xl p-3"><svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        </div>
-        <div class="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-xl px-4 py-2 w-fit">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="m8.2 13.5-1.3 7 5.1-3 5.1 3-1.3-7"/></svg>
-          <span class="font-semibold">Score: {{ groupData.adherenceScore }}</span>
-          <span class="text-indigo-100">- Good Standing</span>
-        </div>
-      </div>
-      <div class="bg-white rounded-2xl border-2 border-emerald-200 p-6 mb-6">
-        <div class="flex items-center justify-between mb-4">
-          <div>
-            <p class="text-sm text-gray-600 mb-1">Solidarity Pool Balance</p>
-            <p class="text-3xl font-bold text-gray-900">{{ groupData.poolBalance | number }} DT</p>
-          </div>
-          <svg class="w-8 h-8 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 17 6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
-        </div>
-        <div class="mb-3">
-          <div class="flex justify-between text-sm text-gray-600 mb-2">
-            <span>Safety Threshold</span>
-            <span>{{ poolPercentage | number:'1.0-0' }}%</span>
-          </div>
-          <div class="w-full bg-gray-200 rounded-full h-3">
-            <div class="bg-gradient-to-r from-emerald-500 to-emerald-600 h-3 rounded-full transition-all" [style.width.%]="poolPercentage > 100 ? 100 : poolPercentage"></div>
+          <div class="bg-[#5B52FF]/10 px-4 py-2 rounded-xl">
+            <span class="text-[#5B52FF] font-bold">2/3 DONE</span>
           </div>
         </div>
-        <p class="text-sm text-gray-600">70% of your premium goes to this shared pool</p>
-      </div>
-      <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-6 mb-6">
-        <div class="flex items-start justify-between">
-          <div class="flex-1">
-            <div class="flex items-center gap-2 text-amber-700 mb-2">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg>
-              <span class="font-semibold">Next Payment Due</span>
+
+        <div class="space-y-4">
+          <button *ngFor="let habit of habits"
+            (click)="toggleHabit(habit.id)"
+            class="w-full flex items-center gap-4 p-5 rounded-2xl border-2 transition-all group"
+            [ngClass]="habit.completed ? 'bg-emerald-50 border-emerald-500 shadow-sm' : 'bg-white border-gray-100 hover:border-[#5B52FF]/30 hover:bg-gray-50'">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-sm"
+              [ngClass]="habit.completed ? 'bg-emerald-500' : 'bg-gray-100 group-hover:bg-gray-200'">
+              <svg *ngIf="habit.completed" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
-            <p class="text-2xl font-bold text-gray-900 mb-1">{{ groupData.nextPaymentAmount }} DT</p>
-            <p class="text-sm text-gray-600">Due on {{ groupData.nextPaymentDue }}</p>
+            <span class="flex-1 text-left font-medium text-lg"
+              [ngClass]="habit.completed ? 'text-emerald-900 line-through opacity-70' : 'text-gray-900'">
+              {{ habit.name }}
+            </span>
+            <div class="w-4 h-4 rounded-full shadow-inner" [style.backgroundColor]="habit.color"></div>
+          </button>
+
+          <button class="w-full flex items-center justify-center gap-3 p-5 rounded-2xl border-2 border-dashed border-gray-200 text-gray-400 hover:border-[#5B52FF]/30 hover:text-[#5B52FF] transition-all group">
+            <svg class="w-6 h-6 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            <span class="font-medium">Suggest New Group Goal</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Actions Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <a routerLink="submit-claim" class="flex flex-col items-center justify-center p-6 bg-white rounded-3xl border border-gray-200 hover:border-[#5B52FF] hover:shadow-lg transition-all group">
+          <div class="w-12 h-12 bg-[#5B52FF]/10 rounded-2xl flex items-center justify-center mb-3 group-hover:bg-[#5B52FF] transition-colors">
+            <svg class="w-6 h-6 text-[#5B52FF] group-hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16l4-3h8a2 2 0 0 0 2-2V6z"/><path d="M14 2v4h4"/></svg>
           </div>
-          <a routerLink="payment-history" class="bg-amber-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-amber-700 transition-colors">Pay Now</a>
-        </div>
-      </div>
-      <div class="grid grid-cols-2 gap-4 mb-6">
-        <a routerLink="submit-claim" class="bg-white border-2 border-indigo-200 rounded-xl p-4 hover:border-indigo-400 transition-colors text-left">
-          <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center mb-3"><svg class="w-5 h-5 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16l4-3h8a2 2 0 0 0 2-2V6z"/><path d="M14 2v4h4"/></svg></div>
-          <p class="font-semibold text-gray-900 mb-1">Submit Claim</p>
-          <p class="text-sm text-gray-600">File a new claim</p>
+          <span class="text-sm font-bold text-gray-900">Claim</span>
         </a>
-        <a routerLink="doctors" class="bg-white border-2 border-blue-200 rounded-xl p-4 hover:border-blue-400 transition-colors text-left">
-          <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-3"><svg class="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 2v4"/><path d="M19 2v4"/><path d="M12 21V8"/><path d="M8 12h8"/><path d="M9 2h6"/><path d="M7 6h10"/></svg></div>
-          <p class="font-semibold text-gray-900 mb-1">Find Doctor</p>
-          <p class="text-sm text-gray-600">Book consultation</p>
+        <a routerLink="doctors" class="flex flex-col items-center justify-center p-6 bg-white rounded-3xl border border-gray-200 hover:border-blue-500 hover:shadow-lg transition-all group">
+          <div class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-3 group-hover:bg-blue-600 transition-colors">
+            <svg class="w-6 h-6 text-blue-600 group-hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 2v4"/><path d="M19 2v4"/><path d="M12 21V8"/><path d="M8 12h8"/><path d="M9 2h6"/><path d="M7 6h10"/></svg>
+          </div>
+          <span class="text-sm font-bold text-gray-900">Doctors</span>
         </a>
-      </div>
-      <div class="grid grid-cols-2 gap-4 mb-6">
-        <a routerLink="browse-groups" class="bg-white border-2 border-teal-200 rounded-xl p-4 hover:border-teal-400 transition-colors text-left">
-          <div class="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mb-3"><svg class="w-5 h-5 text-teal-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-          <p class="font-semibold text-gray-900 mb-1">Join a Group</p>
-          <p class="text-sm text-gray-600">Browse solidarity groups</p>
+        <a routerLink="health" class="flex flex-col items-center justify-center p-6 bg-white rounded-3xl border border-gray-200 hover:border-cyan-500 hover:shadow-lg transition-all group">
+          <div class="w-12 h-12 bg-cyan-50 rounded-2xl flex items-center justify-center mb-3 group-hover:bg-cyan-600 transition-colors">
+            <svg class="w-6 h-6 text-cyan-600 group-hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c-5 0-9 3.1-9 7s4 7 9 7 9-3.1 9-7-4-7-9-7z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg>
+          </div>
+          <span class="text-sm font-bold text-gray-900">Tools</span>
         </a>
-        <a routerLink="health" class="bg-white border-2 border-cyan-200 rounded-xl p-4 hover:border-cyan-400 transition-colors text-left">
-          <div class="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center mb-3"><svg class="w-5 h-5 text-cyan-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c-5 0-9 3.1-9 7s4 7 9 7 9-3.1 9-7-4-7-9-7z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg></div>
-          <p class="font-semibold text-gray-900 mb-1">Health Tools Hub</p>
-          <p class="text-sm text-gray-600">AI chatbot &amp; tools</p>
+        <a routerLink="messages" class="flex flex-col items-center justify-center p-6 bg-white rounded-3xl border border-gray-200 hover:border-emerald-500 hover:shadow-lg transition-all group">
+          <div class="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center mb-3 group-hover:bg-emerald-600 transition-colors">
+            <svg class="w-6 h-6 text-emerald-600 group-hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <span class="text-sm font-bold text-gray-900">Chat</span>
         </a>
       </div>
-      <div class="grid grid-cols-2 gap-4 mb-6">
-        <a routerLink="profile" class="bg-white border-2 border-purple-200 rounded-xl p-4 hover:border-purple-400 transition-colors text-left">
-          <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-3"><svg class="w-5 h-5 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/></svg></div>
-          <p class="font-semibold text-gray-900 mb-1">Member Profile</p>
-          <p class="text-sm text-gray-600">View and edit details</p>
-        </a>
-        <a routerLink="messages" class="bg-white border-2 border-emerald-200 rounded-xl p-4 hover:border-emerald-400 transition-colors text-left">
-          <div class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center mb-3"><svg class="w-5 h-5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-          <p class="font-semibold text-gray-900 mb-1">Messages</p>
-          <p class="text-sm text-gray-600">Chat with support</p>
-        </a>
-      </div>
-      <div class="grid grid-cols-2 gap-4 mb-6">
-        <a routerLink="invite-qr" class="bg-white border-2 border-amber-200 rounded-xl p-4 hover:border-amber-400 transition-colors text-left">
-          <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center mb-3"><svg class="w-5 h-5 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="5" height="5"/><rect x="16" y="3" width="5" height="5"/><rect x="3" y="16" width="5" height="5"/><path d="M16 16h2v2h-2z"/><path d="M20 16h1v1h-1z"/><path d="M19 19h2v2h-2z"/></svg></div>
-          <p class="font-semibold text-gray-900 mb-1">Invitation QR</p>
-          <p class="text-sm text-gray-600">Invite group members</p>
-        </a>
-        <a routerLink="chatbot" class="bg-white border-2 border-indigo-200 rounded-xl p-4 hover:border-indigo-400 transition-colors text-left">
-          <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center mb-3"><svg class="w-5 h-5 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c-5 0-9 3.1-9 7s4 7 9 7 9-3.1 9-7-4-7-9-7z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg></div>
-          <p class="font-semibold text-gray-900 mb-1">Health Assistant</p>
-          <p class="text-sm text-gray-600">Chatbot support</p>
-        </a>
-      </div>
-      <div class="bg-white rounded-2xl border border-gray-200 p-6">
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="font-semibold text-gray-900">Recent Activity</h3>
-          <a routerLink="payment-history" class="text-sm text-indigo-600 font-medium hover:underline">View All</a>
-        </div>
-        <div class="space-y-3">
-          <div *ngFor="let activity of recentActivity" class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-lg flex items-center justify-center" [ngClass]="activity.type === 'payment' ? 'bg-emerald-100' : 'bg-blue-100'">
-                <svg *ngIf="activity.type === 'payment'" class="w-4 h-4 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H14.5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                <svg *ngIf="activity.type !== 'payment'" class="w-4 h-4 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 12 5 5 9-9"/></svg>
-              </div>
-              <div>
-                <p class="text-sm font-medium text-gray-900">{{ activity.user }}</p>
-                <p class="text-xs text-gray-500">{{ activity.desc }}</p>
-              </div>
+    </div>
+
+    <!-- Sidebar Content -->
+    <div class="space-y-6">
+      <!-- Rewards Progress -->
+      <div class="bg-gradient-to-br from-[#5B52FF] to-[#4B42EF] rounded-3xl p-8 text-white shadow-xl shadow-[#5B52FF]/20 relative overflow-hidden">
+        <div class="relative z-10">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v3a5 5 0 0 1-5 5 5 5 0 0 1-5-5z"/></svg>
             </div>
-            <div class="text-right">
-              <p class="font-semibold" [ngClass]="activity.amount > 0 ? 'text-emerald-600' : 'text-gray-900'">{{ activity.amount > 0 ? '+' : '' }}{{ activity.amount }} DT</p>
-              <p class="text-xs text-gray-500">{{ activity.date }}</p>
+            <div>
+              <h3 class="font-bold">Next Reward</h3>
+              <p class="text-xs text-white/70">Health Champion Badge</p>
+            </div>
+          </div>
+          
+          <div class="space-y-4">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-medium">Monthly Progress</span>
+              <span class="font-bold">85%</span>
+            </div>
+            <div class="w-full bg-white/20 rounded-full h-3 backdrop-blur-md">
+              <div class="bg-white h-3 rounded-full shadow-lg" style="width: 85%"></div>
+            </div>
+            <p class="text-xs text-white/80 leading-relaxed italic">
+              "You're only 3 days away from a 10% premium discount for your entire group!"
+            </p>
+          </div>
+        </div>
+        <!-- Decorative Circle -->
+        <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+      </div>
+
+      <!-- Recent Activity Feed -->
+      <div class="bg-white rounded-3xl p-6 border border-gray-200 shadow-sm">
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="font-bold text-gray-900">Group Feed</h3>
+          <a routerLink="payment-history" class="text-xs text-[#5B52FF] font-bold hover:underline">VIEW ALL</a>
+        </div>
+        <div class="space-y-4">
+          <div *ngFor="let activity of recentActivity" class="flex items-start gap-4 p-4 bg-gray-50 rounded-2xl border border-transparent hover:border-gray-200 transition-all">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center shadow-sm" 
+              [ngClass]="activity.type === 'payment' ? 'bg-emerald-100' : 'bg-blue-100'">
+              <svg *ngIf="activity.type === 'payment'" class="w-5 h-5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H14.5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <svg *ngIf="activity.type !== 'payment'" class="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16l4-3h8a2 2 0 0 0 2-2V6z"/><path d="M14 2v4h4"/></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex justify-between items-start mb-1">
+                <p class="text-sm font-bold text-gray-900 truncate">{{ activity.user }}</p>
+                <span class="text-[10px] font-bold text-gray-400">{{ activity.date | date:'MMM d' }}</span>
+              </div>
+              <p class="text-xs text-gray-500 leading-tight">{{ activity.desc }}</p>
+              <p class="text-xs font-bold mt-2" [ngClass]="activity.amount > 0 ? 'text-emerald-600' : 'text-gray-900'">
+                {{ activity.amount > 0 ? '+' : '' }}{{ activity.amount }} DT
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>

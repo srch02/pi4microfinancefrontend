@@ -1,0 +1,254 @@
+<!-- ===== HOME VIEW ===== -->
+<div *ngIf="view === 'home'" class="min-h-screen bg-gradient-to-br from-[#E8E6F7] via-[#F0EEF9] to-white flex items-center justify-center p-4">
+  <div class="w-full max-w-lg">
+    <button (click)="goBack()" class="flex items-center gap-2 text-gray-600 hover:text-[#5B52FF] transition-colors mb-6">
+      <!-- Arrow Left -->
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to Home
+    </button>
+
+    <div class="bg-white rounded-3xl shadow-xl p-8 border border-[#5B52FF]/10">
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <div class="w-16 h-16 bg-[#5B52FF] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#5B52FF]/30">
+          <svg class="w-8 h-8 text-white fill-white" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Solidari-Health</h2>
+        <p class="text-gray-600">Protection for you and your group</p>
+      </div>
+
+      <!-- Icon Row -->
+      <div class="bg-gradient-to-br from-[#E8E6F7] to-[#F0EEF9] rounded-2xl p-6 mb-8">
+        <div class="flex items-center justify-center gap-4 mb-3">
+          <div class="w-12 h-12 bg-[#5B52FF] rounded-full flex items-center justify-center shadow-md">
+            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="w-12 h-12 bg-[#5B52FF] rounded-full flex items-center justify-center shadow-md">
+            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="w-12 h-12 bg-[#5B52FF] rounded-full flex items-center justify-center shadow-md">
+            <svg class="w-6 h-6 text-white fill-white" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </div>
+        </div>
+        <p class="text-center text-sm text-[#5B52FF] font-medium">Family & community under protection</p>
+      </div>
+
+      <!-- Features -->
+      <div class="space-y-4 mb-8">
+        <div *ngFor="let f of features" class="flex items-start gap-4 p-4 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors">
+          <div class="w-10 h-10 bg-[#5B52FF]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+            <!-- Shield -->
+            <svg *ngIf="f.icon === 'shield'" class="w-5 h-5 text-[#5B52FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <!-- Users -->
+            <svg *ngIf="f.icon === 'users'" class="w-5 h-5 text-[#5B52FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <!-- Trending -->
+            <svg *ngIf="f.icon === 'trending'" class="w-5 h-5 text-[#5B52FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          </div>
+          <div>
+            <h3 class="font-semibold text-gray-900 mb-1">{{ f.title }}</h3>
+            <p class="text-sm text-gray-600">{{ f.description }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTAs -->
+      <button (click)="register()"
+        class="w-full bg-[#5B52FF] text-white py-4 rounded-xl font-semibold hover:bg-[#4B42EF] transition-all shadow-lg hover:shadow-[#5B52FF]/30 mb-4">
+        Start Your Registration
+      </button>
+      <div class="text-center">
+        <button type="button" (click)="onViewChange('signin')" class="text-sm text-gray-600">
+          Already a member? <span class="text-[#5B52FF] font-semibold hover:underline cursor-pointer">Sign in</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SIGN IN VIEW ===== -->
+<div *ngIf="view === 'signin'" class="min-h-screen bg-gradient-to-br from-[#E8E6F7] via-[#F0EEF9] to-white flex items-center justify-center p-4">
+  <div class="w-full max-w-md">
+    <button (click)="view = 'home'" class="flex items-center gap-2 text-gray-600 hover:text-[#5B52FF] transition-colors mb-6">
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back
+    </button>
+
+    <div class="bg-white rounded-3xl shadow-xl p-8 border border-[#5B52FF]/10">
+      <div class="text-center mb-8">
+        <div class="w-16 h-16 bg-[#5B52FF] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#5B52FF]/30">
+          <svg class="w-8 h-8 text-white fill-white" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h2>
+        <p class="text-gray-600">Sign in to your member account</p>
+      </div>
+
+      <form (ngSubmit)="signIn()" class="space-y-5">
+        <!-- Username -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <input type="text" [(ngModel)]="username" name="username" required
+              class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#5B52FF] focus:border-[#5B52FF] transition-colors"
+              placeholder="your.username" />
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <input type="password" [(ngModel)]="password" name="password" required
+              class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#5B52FF] focus:border-[#5B52FF] transition-colors"
+              placeholder="Enter your password" />
+          </div>
+        </div>
+
+        <!-- Real reCAPTCHA API -->
+        <div *ngIf="recaptchaEnabled" class="space-y-2">
+          <div #recaptchaContainer class="recaptcha-target min-h-[78px] bg-gray-50 rounded-xl flex items-center justify-center border border-gray-100 shadow-inner overflow-hidden">
+            <!-- Google reCAPTCHA will render here -->
+            <div *ngIf="!recaptchaRendered && !recaptchaError" class="flex items-center gap-2 text-gray-400">
+              <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M22 12A10 10 0 0 1 12 22"/></svg>
+              <span class="text-xs">Loading reCAPTCHA...</span>
+            </div>
+          </div>
+          <div *ngIf="recaptchaError" class="text-xs text-red-600 text-center px-4">{{ recaptchaError }}</div>
+          <div *ngIf="recaptchaSiteKey" class="text-[10px] text-gray-400 text-center opacity-50 mt-1">
+            Site Key Loaded: {{ recaptchaSiteKey.slice(0, 6) }}...{{ recaptchaSiteKey.slice(-4) }}
+          </div>
+        </div>
+
+        <!-- Error -->
+        <div *ngIf="errorMessage" class="bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
+          <svg class="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <p class="text-sm text-red-800">{{ errorMessage }}</p>
+        </div>
+
+        <button type="submit" [disabled]="busy"
+          class="w-full py-3 rounded-xl font-semibold transition-colors shadow-lg"
+          [ngClass]="busy ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-[#5B52FF] text-white hover:bg-[#4B42EF] hover:shadow-[#5B52FF]/30'">
+          {{ busy ? 'Signing in...' : 'Sign In' }}
+        </button>
+
+        <div class="text-center">
+          <button type="button" (click)="onViewChange('register')" class="text-sm text-gray-600">
+            Don't have an account? <span class="text-[#5B52FF] font-semibold hover:underline cursor-pointer">Register</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ===== REGISTER VIEW ===== -->
+<div *ngIf="view === 'register'" class="min-h-screen bg-gradient-to-br from-[#E8E6F7] via-[#F0EEF9] to-white flex items-center justify-center p-4">
+  <div class="w-full max-w-2xl">
+    <button (click)="view = 'home'" class="flex items-center gap-2 text-gray-600 hover:text-[#5B52FF] transition-colors mb-6">
+      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back
+    </button>
+
+    <div class="bg-white rounded-3xl shadow-xl p-8 border border-[#5B52FF]/10">
+      <div class="text-center mb-8">
+        <div class="w-16 h-16 bg-[#5B52FF] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-[#5B52FF]/30">
+          <svg class="w-8 h-8 text-white fill-white" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Start Your Registration</h2>
+        <p class="text-gray-600">Join Solidari-Health and protect your family</p>
+      </div>
+
+      <form (ngSubmit)="register()" class="space-y-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- Full Name -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <input type="text" [(ngModel)]="name" name="name"
+                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#5B52FF] focus:border-[#5B52FF] transition-colors"
+                placeholder="Your full name" />
+            </div>
+          </div>
+          <!-- CIN -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">CIN Number</label>
+            <input type="text" [(ngModel)]="cin" name="cin"
+              class="block w-full px-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#5B52FF] focus:border-[#5B52FF] transition-colors"
+              placeholder="12345678" />
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 8 8 5 8-5"/></svg>
+            </div>
+            <input type="email" [(ngModel)]="email" name="email"
+              class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#5B52FF] focus:border-[#5B52FF] transition-colors"
+              placeholder="your.email@example.com" />
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <input type="tel" [(ngModel)]="phone" name="phone"
+              class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#5B52FF] focus:border-[#5B52FF] transition-colors"
+              placeholder="+216 XX XXX XXX" />
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <input type="text" [(ngModel)]="address" name="address"
+              class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#5B52FF] focus:border-[#5B52FF] transition-colors"
+              placeholder="Your address" />
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <input type="password" [(ngModel)]="regPassword" name="regPassword"
+              class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#5B52FF] focus:border-[#5B52FF] transition-colors"
+              placeholder="Create a password" />
+          </div>
+        </div>
+
+        <button type="submit"
+          class="w-full bg-[#5B52FF] text-white py-3 rounded-xl font-semibold hover:bg-[#4B42EF] transition-colors shadow-lg hover:shadow-[#5B52FF]/30">
+          Start Verification
+        </button>
+
+        <div class="text-center">
+          <button type="button" (click)="onViewChange('signin')" class="text-sm text-gray-600">
+            Already have an account? <span class="text-[#5B52FF] font-semibold hover:underline cursor-pointer">Sign in</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

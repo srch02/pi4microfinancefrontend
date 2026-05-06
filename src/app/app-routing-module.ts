@@ -32,12 +32,35 @@ import {
   WaitingApprovalComponent,
   WelcomeComponent,
   CreateAccountComponent,
+  MemberPortalComponent,
 } from './member';
+import { AdminWelcomeComponent } from './admin/admin-welcome/admin-welcome.component';
+import { AdminLayoutComponent } from './admin/admin-layout/admin-layout.component';
+import { AdminOverviewComponent } from './admin/admin-overview/admin-overview.component';
+import { AdminPreRegistrationComponent } from './admin/admin-pre-registration/admin-pre-registration.component';
+import { AdminGroupsPaymentsComponent } from './admin/admin-groups-payments/admin-groups-payments.component';
+import { AdminClaimsScoringComponent } from './admin/admin-claims-scoring/admin-claims-scoring.component';
+import { AdminHealthServicesComponent } from './admin/admin-health-services/admin-health-services.component';
+import { AdminAnalyticsComponent } from './admin/admin-analytics/admin-analytics.component';
 import { SubmitClaimComponent } from './member/app-pages/Score/submit-claim/submit-claim';
 import { ClaimListComponent } from './member/app-pages/Score/claim-list/claim-list';
 import { MemberRewardsComponent } from './member/app-pages/Score/member-reward/member-reward';
 
 const routes: Routes = [
+  { path: 'admin/welcome', component: AdminWelcomeComponent },
+  {
+    path: 'admin',
+    component: AdminLayoutComponent,
+    children: [
+      { path: 'dashboard', component: AdminOverviewComponent },
+      { path: 'pre-registration', component: AdminPreRegistrationComponent },
+      { path: 'groups-payments', component: AdminGroupsPaymentsComponent },
+      { path: 'claims-scoring', component: AdminClaimsScoringComponent },
+      { path: 'health-services', component: AdminHealthServicesComponent },
+      { path: 'analytics', component: AdminAnalyticsComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+    ]
+  },
   {
     path: 'app',
     component: MemberAppComponent,
@@ -105,8 +128,8 @@ const routes: Routes = [
       },
       { path: 'dashboard', redirectTo: 'member-app', pathMatch: 'full' },
       { path: '', pathMatch: 'full', redirectTo: 'home' },
-      { path: 'home', component: HomeComponent },
-      { path: 'sign-in', component: MemberSignInComponent },
+      { path: 'home', component: AdminWelcomeComponent },
+      { path: 'sign-in', component: MemberPortalComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
       { path: 'face-login', component: FaceRecognitionLoginComponent },
       { path: 'verify-cin', component: CinVerificationComponent },

@@ -1,0 +1,173 @@
+<div class="p-8">
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Groups & Payments</h1>
+    <p class="text-gray-500 mt-1">Module 1 - Manage solidarity groups and track payments</p>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+    <div class="bg-white rounded-lg p-6 border border-gray-200">
+      <div class="flex items-center gap-3 mb-2">
+        <div class="p-2 bg-blue-100 rounded-lg">
+          <!-- Users Icon -->
+          <svg class="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <span class="text-sm text-gray-600">Total Groups</span>
+      </div>
+      <p class="text-3xl font-bold text-gray-900">{{ mockGroups.length }}</p>
+    </div>
+
+    <div class="bg-white rounded-lg p-6 border border-gray-200">
+      <div class="flex items-center gap-3 mb-2">
+        <div class="p-2 bg-green-100 rounded-lg">
+          <!-- Users Icon -->
+          <svg class="w-5 h-5 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <span class="text-sm text-gray-600">Total Members</span>
+      </div>
+      <p class="text-3xl font-bold text-gray-900">{{ totalMembers }}</p>
+    </div>
+
+    <div class="bg-white rounded-lg p-6 border border-gray-200">
+      <div class="flex items-center gap-3 mb-2">
+        <div class="p-2 bg-purple-100 rounded-lg">
+          <!-- Trending Up Icon -->
+          <svg class="w-5 h-5 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <span class="text-sm text-gray-600">Total Pool Balance</span>
+      </div>
+      <p class="text-3xl font-bold text-gray-900">{{ totalPoolBalance | number }} TND</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Groups List -->
+    <div class="lg:col-span-2">
+      <div class="bg-white rounded-lg border border-gray-200">
+        <div class="p-6 border-b border-gray-200">
+          <h2 class="text-lg font-semibold">Solidarity Groups</h2>
+        </div>
+        <div class="divide-y divide-gray-200">
+          <div 
+            *ngFor="let group of mockGroups"
+            class="p-6 hover:bg-gray-50 transition-colors cursor-pointer"
+            (click)="selectGroup(group)"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex-1">
+                <div class="flex items-center gap-3 mb-2">
+                  <h3 class="font-semibold text-gray-900">{{ group.name }}</h3>
+                  <span class="px-2 py-1 rounded text-xs font-medium"
+                    [ngClass]="group.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'">
+                    {{ group.status }}
+                  </span>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-sm text-gray-600">
+                  <div>
+                    <p class="text-xs text-gray-500">Members</p>
+                    <p class="font-medium">{{ group.members }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-500">Pool Balance</p>
+                    <p class="font-medium">{{ group.poolBalance | number }} TND</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-500">Monthly Contribution</p>
+                    <p class="font-medium">{{ group.monthlyContribution }} TND</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-500">Last Payment</p>
+                    <p class="font-medium">{{ group.lastPayment | date:'MMM d' }}</p>
+                  </div>
+                </div>
+              </div>
+              <!-- Chevron Right -->
+              <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment History -->
+      <div class="bg-white rounded-lg border border-gray-200 mt-6">
+        <div class="p-6 border-b border-gray-200">
+          <h2 class="text-lg font-semibold">Recent Payment History</h2>
+        </div>
+        <div class="divide-y divide-gray-200">
+          <div *ngFor="let payment of mockPaymentHistory" class="p-6 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <div class="p-2 bg-green-100 rounded-lg">
+                <!-- Calendar -->
+                <svg class="w-5 h-5 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+              <div>
+                <p class="font-medium text-gray-900">{{ payment.group }}</p>
+                <p class="text-sm text-gray-500">{{ payment.date | date:'MMMM d, y' }}</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="font-semibold text-gray-900">{{ payment.amount | number }} TND</p>
+              <span class="text-xs text-green-600 font-medium">Completed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Group Details Panel -->
+    <div class="lg:col-span-1">
+      <div class="bg-white rounded-lg border border-gray-200 p-6 sticky top-8">
+        <ng-container *ngIf="selectedGroup; else noSelection">
+          <div>
+            <h3 class="text-lg font-semibold mb-4">Group Details</h3>
+            <div class="space-y-4">
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Group Name</p>
+                <p class="font-semibold">{{ selectedGroup.name }}</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Group ID</p>
+                <p class="font-mono text-sm">{{ selectedGroup.id }}</p>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <p class="text-sm text-gray-500 mb-1">Members</p>
+                  <p class="text-2xl font-bold">{{ selectedGroup.members }}</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500 mb-1">Status</p>
+                  <span class="inline-block px-2 py-1 rounded text-xs font-medium"
+                    [ngClass]="selectedGroup.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'">
+                    {{ selectedGroup.status }}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Pool Balance</p>
+                <p class="text-2xl font-bold text-green-600">{{ selectedGroup.poolBalance | number }} TND</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Monthly Contribution</p>
+                <p class="font-semibold">{{ selectedGroup.monthlyContribution }} TND per member</p>
+              </div>
+              <div>
+                <p class="text-sm text-gray-500 mb-1">Last Payment</p>
+                <p class="font-semibold">{{ selectedGroup.lastPayment | date:'MMMM d, y' }}</p>
+              </div>
+              <button class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors mt-4">
+                View Full Details
+              </button>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #noSelection>
+          <div class="text-center text-gray-500 py-12">
+            <!-- Users Icon -->
+            <svg class="w-12 h-12 mx-auto mb-3 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <p>Select a group to view details</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

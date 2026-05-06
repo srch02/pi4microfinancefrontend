@@ -1,0 +1,267 @@
+<app-member-portal *ngIf="showMemberPortal" (onBack)="showMemberPortal = false"></app-member-portal>
+
+<div *ngIf="!showMemberPortal" class="min-h-screen bg-gradient-to-br from-[#E8E6F7] via-[#F0EEF9] to-white">
+  <nav class="flex items-center justify-between px-8 lg:px-12 py-5 border-b border-[#5B52FF]/10 bg-white/80 backdrop-blur-md">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 bg-[#5B52FF] rounded-full flex items-center justify-center">
+        <!-- Heart Icon -->
+        <svg class="w-4 h-4 text-white fill-white" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+      </div>
+      <span class="font-semibold text-gray-900 tracking-tight">Solidari-Health</span>
+    </div>
+    <div class="hidden md:flex items-center gap-10 text-xs tracking-wide">
+      <a href="#" class="text-gray-600 hover:text-[#5B52FF] transition-colors font-medium">ABOUT US</a>
+      <a href="#" class="text-gray-600 hover:text-[#5B52FF] transition-colors font-medium">HOW IT WORKS</a>
+      <a href="#" class="text-[#5B52FF] font-semibold">IMPACT</a>
+      <a href="#" class="text-gray-600 hover:text-[#5B52FF] transition-colors font-medium">PARTNERS</a>
+    </div>
+    <button
+      (click)="openAdminLogin()"
+      class="text-xs font-semibold text-gray-800 hover:text-[#5B52FF] transition-colors tracking-wide"
+    >
+      ADMIN
+    </button>
+  </nav>
+
+  <div class="max-w-7xl mx-auto px-8 pt-16 pb-16">
+    <div class="mb-20">
+      <div class="flex flex-wrap items-center justify-center gap-4 mb-8">
+        <h1 class="text-7xl md:text-8xl lg:text-9xl font-bold text-gray-900 leading-none">
+          Health
+        </h1>
+        <div class="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden bg-[#5B52FF] flex-shrink-0 shadow-2xl shadow-[#5B52FF]/30 relative">
+          <div class="w-full h-full flex items-center justify-center">
+            <svg class="w-16 h-16 md:w-20 md:h-20 text-white fill-white" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
+        </div>
+        <h1 class="text-7xl md:text-8xl lg:text-9xl font-bold text-gray-900 leading-none">
+          Care
+        </h1>
+      </div>
+      <div class="text-center mb-12">
+        <h2 class="text-7xl md:text-8xl lg:text-9xl font-bold text-gray-900 leading-none mb-4">
+          is Solidarity
+        </h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+          Protection for you and your group through community-based micro-insurance
+        </p>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-4">
+        <button
+          (click)="openAdminLogin()"
+          class="group inline-flex items-center gap-2 bg-[#5B52FF] hover:bg-[#4B42EF] text-white px-10 py-4 rounded-full font-semibold transition-all shadow-lg hover:shadow-xl hover:shadow-[#5B52FF]/30 text-sm tracking-wide"
+        >
+          ADMIN DASHBOARD
+          <!-- Arrow Right -->
+          <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button
+          (click)="openMemberPortal()"
+          class="group inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-gray-900 px-10 py-4 rounded-full font-semibold transition-all shadow-lg hover:shadow-xl border-2 border-[#5B52FF]/20 text-sm tracking-wide"
+        >
+          MEMBER PORTAL
+          <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="bg-gradient-to-br from-[#5B52FF]/5 to-[#5B52FF]/10 rounded-3xl p-12 mb-20 border border-[#5B52FF]/10">
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center gap-4 mb-3">
+          <div class="w-12 h-12 bg-[#5B52FF] rounded-full flex items-center justify-center">
+            <!-- Users -->
+            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M12 7a4 4 0 1 0-8 0 4 4 0 0 0 8 0zM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="w-12 h-12 bg-[#5B52FF] rounded-full flex items-center justify-center">
+            <!-- Shield -->
+            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="w-12 h-12 bg-[#5B52FF] rounded-full flex items-center justify-center">
+            <svg class="w-6 h-6 text-white fill-white" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </div>
+        </div>
+        <p class="text-sm text-[#5B52FF] font-medium">Family & community under protection</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+          <div class="w-12 h-12 bg-[#5B52FF]/10 rounded-xl flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-[#5B52FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2">Affordable Protection</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            Starting at 10 DT/month
+          </p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+          <div class="w-12 h-12 bg-[#5B52FF]/10 rounded-xl flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-[#5B52FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M12 7a4 4 0 1 0-8 0 4 4 0 0 0 8 0zM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2">Solidarity Groups</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            Pool resources with your community
+          </p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm">
+          <div class="w-12 h-12 bg-[#5B52FF]/10 rounded-xl flex items-center justify-center mb-4">
+            <svg class="w-6 h-6 text-[#5B52FF] fill-[#5B52FF]" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </div>
+          <h3 class="font-semibold text-gray-900 mb-2">Fair Pricing</h3>
+          <p class="text-sm text-gray-600 leading-relaxed">
+            Personalized to your health profile
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-[#5B52FF]/10 pt-8">
+      <p class="text-center text-xs text-gray-500 mb-6 tracking-widest">TRUSTED PARTNERS</p>
+      <div class="flex flex-wrap items-center justify-center gap-12 opacity-40">
+        <div class="text-lg font-semibold text-gray-600">Ministry of Health</div>
+        <div class="text-lg font-semibold text-gray-600">WHO</div>
+        <div class="text-lg font-semibold text-gray-600">Global Fund</div>
+        <div class="text-lg font-semibold text-gray-600">USAID</div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="showUserModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 relative border border-[#5B52FF]/10">
+      <button
+        (click)="showUserModal = false"
+        class="absolute top-6 right-6 text-gray-400 hover:text-gray-700 transition-colors"
+      >
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+
+      <div class="mb-6">
+        <div class="w-14 h-14 bg-[#5B52FF] rounded-2xl flex items-center justify-center mb-4">
+          <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-900 mb-3">Member Portal</h3>
+        <p class="text-gray-600 leading-relaxed">
+          The member portal is currently under development. This demonstration showcases the administrator dashboard for managing the Solidari-Health platform.
+        </p>
+      </div>
+
+      <div class="bg-gradient-to-br from-[#5B52FF]/5 to-[#5B52FF]/10 rounded-2xl p-6 mb-6 border border-[#5B52FF]/10">
+        <h4 class="font-semibold text-gray-900 mb-3">Admin Dashboard Features:</h4>
+        <ul class="text-sm text-gray-700 space-y-2">
+          <li class="flex items-start gap-2">
+            <span class="text-[#5B52FF] mt-0.5">✓</span>
+            <span>Pre-registration and CIN verification</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-[#5B52FF] mt-0.5">✓</span>
+            <span>Solidarity groups and payment pools</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-[#5B52FF] mt-0.5">✓</span>
+            <span>Claims processing with fraud detection</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-[#5B52FF] mt-0.5">✓</span>
+            <span>Health services network management</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-[#5B52FF] mt-0.5">✓</span>
+            <span>Analytics and churn prediction</span>
+          </li>
+        </ul>
+      </div>
+
+      <button
+        (click)="showUserModal = false"
+        class="w-full bg-[#5B52FF] text-white py-3 rounded-xl font-semibold hover:bg-[#4B42EF] transition-colors shadow-lg hover:shadow-[#5B52FF]/30"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="showAdminLogin" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 relative border border-[#5B52FF]/10">
+      <button
+        (click)="closeAdminLogin()"
+        class="absolute top-6 right-6 text-gray-400 hover:text-gray-700 transition-colors"
+      >
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+
+      <div class="text-center mb-8">
+        <div class="w-16 h-16 bg-[#5B52FF] rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-900 mb-2">Admin Login</h3>
+        <p class="text-gray-600">Enter your credentials to access the dashboard</p>
+      </div>
+
+      <form (submit)="handleAdminLogin($event)" class="space-y-5">
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
+            Username
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <input
+              id="username"
+              type="text"
+              name="username"
+              [(ngModel)]="username"
+              class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#5B52FF] focus:border-[#5B52FF] transition-colors"
+              placeholder="Enter username"
+              required
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+            Password
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              [(ngModel)]="password"
+              class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#5B52FF] focus:border-[#5B52FF] transition-colors"
+              placeholder="Enter password"
+              required
+            />
+          </div>
+        </div>
+
+        <div *ngIf="loginError" class="bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
+          <svg class="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <p class="text-sm text-red-800">{{ loginError }}</p>
+        </div>
+
+        <button
+          type="submit"
+          [disabled]="isLoggingIn"
+          class="w-full bg-[#5B52FF] text-white py-3 rounded-xl font-semibold hover:bg-[#4B42EF] focus:ring-4 focus:ring-[#5B52FF]/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-[#5B52FF]/30"
+        >
+          {{ isLoggingIn ? 'Signing in...' : 'Sign In' }}
+        </button>
+      </form>
+
+      <div class="mt-6 pt-6 border-t border-gray-200">
+        <div class="bg-gradient-to-br from-[#5B52FF]/5 to-[#5B52FF]/10 rounded-xl p-4 border border-[#5B52FF]/10">
+          <p class="text-xs text-gray-600 mb-2 font-medium">Demo Credentials:</p>
+          <div class="space-y-1 text-xs text-gray-700">
+            <p>Username: <span class="font-mono bg-white px-2 py-0.5 rounded font-semibold">admin</span></p>
+            <p>Password: <span class="font-mono bg-white px-2 py-0.5 rounded font-semibold">admin123</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

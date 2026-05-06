@@ -4,3 +4,4 @@ export * from './app-pages/app-pages';
 export * from './models/member.models';
 export * from './extra-pages/member-extra-pages';
 export * from './member-auth-pages';
+export * from './member-portal.component';

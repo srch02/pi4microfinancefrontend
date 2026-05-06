@@ -37,7 +37,16 @@ import {
   WaitingApprovalComponent,
   WelcomeComponent,
   CreateAccountComponent,
+  MemberPortalComponent,
 } from './member';
+import { AdminWelcomeComponent } from './admin/admin-welcome/admin-welcome.component';
+import { AdminLayoutComponent } from './admin/admin-layout/admin-layout.component';
+import { AdminOverviewComponent } from './admin/admin-overview/admin-overview.component';
+import { AdminPreRegistrationComponent } from './admin/admin-pre-registration/admin-pre-registration.component';
+import { AdminGroupsPaymentsComponent } from './admin/admin-groups-payments/admin-groups-payments.component';
+import { AdminClaimsScoringComponent } from './admin/admin-claims-scoring/admin-claims-scoring.component';
+import { AdminHealthServicesComponent } from './admin/admin-health-services/admin-health-services.component';
+import { AdminAnalyticsComponent } from './admin/admin-analytics/admin-analytics.component';
 import { ClaimHistory } from './member/app-pages/Score/claim-history/claim-history';
 import { SubmitClaimComponent } from './member/app-pages/Score/submit-claim/submit-claim';
 import { ClaimListComponent } from './member/app-pages/Score/claim-list/claim-list';
@@ -51,6 +60,7 @@ import { MemberRewardsComponent } from './member/app-pages/Score/member-reward/m
     HomeComponent,
     WelcomeComponent,
     MemberSignInComponent,
+    MemberPortalComponent,
     ForgotPasswordComponent,
     FaceRecognitionLoginComponent,
     CinVerificationComponent,
@@ -76,6 +86,14 @@ import { MemberRewardsComponent } from './member/app-pages/Score/member-reward/m
     TelemedicineBookingComponent,
     VideoCallComponent,
     CreateAccountComponent,
+    AdminWelcomeComponent,
+    AdminLayoutComponent,
+    AdminOverviewComponent,
+    AdminPreRegistrationComponent,
+    AdminGroupsPaymentsComponent,
+    AdminClaimsScoringComponent,
+    AdminHealthServicesComponent,
+    AdminAnalyticsComponent,
   ],
   imports: [
     BrowserModule,

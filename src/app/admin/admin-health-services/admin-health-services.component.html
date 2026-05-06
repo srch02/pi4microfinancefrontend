@@ -1,0 +1,138 @@
+<div class="p-8">
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">Health Services</h1>
+    <p class="text-gray-500 mt-1">Module 3 - Manage healthcare partners and telemedicine services</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+    <div class="bg-white rounded-lg p-6 border border-gray-200">
+      <div class="flex items-center gap-3 mb-2">
+        <div class="p-2 bg-blue-100 rounded-lg">
+          <svg class="w-5 h-5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 10h8"/><path d="M12 6v8"/></svg>
+        </div>
+        <span class="text-sm text-gray-600">Total Partners</span>
+      </div>
+      <p class="text-3xl font-bold text-gray-900">{{ partners.length }}</p>
+    </div>
+
+    <div class="bg-white rounded-lg p-6 border border-gray-200">
+      <div class="flex items-center gap-3 mb-2">
+        <div class="p-2 bg-green-100 rounded-lg">
+          <svg class="w-5 h-5 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <span class="text-sm text-gray-600">Consultations</span>
+      </div>
+      <p class="text-3xl font-bold text-gray-900">{{ totalConsultations }}</p>
+    </div>
+
+    <div class="bg-white rounded-lg p-6 border border-gray-200">
+      <div class="flex items-center gap-3 mb-2">
+        <div class="p-2 bg-yellow-100 rounded-lg">
+          <svg class="w-5 h-5 text-yellow-600" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <span class="text-sm text-gray-600">Avg Rating</span>
+      </div>
+      <p class="text-3xl font-bold text-gray-900">{{ avgRating }}</p>
+    </div>
+
+    <div class="bg-white rounded-lg p-6 border border-gray-200">
+      <div class="flex items-center gap-3 mb-2">
+        <div class="p-2 bg-purple-100 rounded-lg">
+          <svg class="w-5 h-5 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <span class="text-sm text-gray-600">Telemedicine</span>
+      </div>
+      <p class="text-3xl font-bold text-gray-900">108</p>
+      <p class="text-xs text-gray-500 mt-1">This month</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Partner Directory -->
+    <div class="lg:col-span-2">
+      <div class="bg-white rounded-lg border border-gray-200">
+        <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+          <h2 class="text-lg font-semibold">Partner Directory</h2>
+          <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm">
+            Add Partner
+          </button>
+        </div>
+        <div class="divide-y divide-gray-200">
+          <div *ngFor="let partner of partners" class="p-6 hover:bg-gray-50 transition-colors">
+            <div class="flex items-start gap-4">
+              <div class="p-3 bg-blue-100 rounded-lg">
+                <svg class="w-6 h-6 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M8 10h8"/><path d="M12 6v8"/></svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-start justify-between mb-2">
+                  <div>
+                    <h3 class="font-semibold text-gray-900">{{ partner.name }}</h3>
+                    <span class="inline-block px-2 py-1 rounded text-xs font-medium mt-1" [ngClass]="getTypeColor(partner.type)">
+                      {{ capitalize(partner.type) }}
+                    </span>
+                  </div>
+                  <span class="px-2 py-1 bg-green-100 text-green-800 rounded text-xs font-medium">{{ partner.status }}</span>
+                </div>
+
+                <div class="space-y-1 text-sm text-gray-600 mt-3">
+                  <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>{{ partner.location }}</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <span>{{ partner.phone }}</span>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-6 mt-3 text-sm">
+                  <div class="flex items-center gap-1">
+                    <svg class="w-4 h-4 text-yellow-500 fill-yellow-500" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span class="font-medium">{{ partner.rating }}</span>
+                  </div>
+                  <div class="text-gray-600">
+                    <span class="font-medium">{{ partner.consultations }}</span> consultations
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Telemedicine Stats + Quick Actions -->
+    <div class="lg:col-span-1 space-y-6">
+      <div class="bg-white rounded-lg border border-gray-200 p-6">
+        <h3 class="text-lg font-semibold mb-4">Telemedicine Usage</h3>
+        <div class="h-[200px] w-full">
+          <canvas #telemedicineChartCanvas></canvas>
+        </div>
+        <div class="mt-4 p-4 bg-purple-50 rounded-lg">
+          <p class="text-sm text-purple-900">
+            <span class="font-semibold">+18.5%</span> increase in telemedicine consultations this month
+          </p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg border border-gray-200 p-6">
+        <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+        <div class="space-y-2">
+          <button class="w-full text-left px-4 py-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <p class="font-medium text-gray-900">Add New Partner</p>
+            <p class="text-xs text-gray-500 mt-1">Register a new healthcare provider</p>
+          </button>
+          <button class="w-full text-left px-4 py-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <p class="font-medium text-gray-900">Export Directory</p>
+            <p class="text-xs text-gray-500 mt-1">Download partner list as CSV</p>
+          </button>
+          <button class="w-full text-left px-4 py-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+            <p class="font-medium text-gray-900">View Analytics</p>
+            <p class="text-xs text-gray-500 mt-1">Detailed partner performance</p>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
